@@ -13,7 +13,7 @@ else:
 	require_once('layout/msg.php');
 ?>
 	<?php require_once('layout/msg.php') ?>
-	<form action="flight_edit_func.php" method="post">
+	<form action="flight_edit_func.php" method="post" role="form">
 		<input name="id" type="hidden" value="<?php echo $result->id ?>">
 		<p>Flight Number: <input name="flightNumber" type="text" value="<?php echo $result->flight_number ?>"></p>
 		<p>Departure: <input name="departure" type="text" value="<?php echo $result->departure ?>"></p>
