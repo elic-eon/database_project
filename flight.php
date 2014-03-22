@@ -6,10 +6,10 @@
 	else:
 ?>
 	<?php require_once('layout/header.php') ?>
-	<nav>
-		<a href="./">Go home</a> | <a href="./logout.php">Logout</a>
-	</nav>
-	<?php require_once('layout/msg.php') ?>
+  <ul class="nav nav-pills">
+    <li><a href="./">Home</a></li>
+    <li><a href="./logout.php">Logout</a></li>
+  </ul>
 	<?php
 		require_once('db.php');
 
@@ -19,7 +19,7 @@
 	?>
 
 	<?php $isAdmin = $_SESSION['isAdmin']; ?>
-	<table>
+	<table class="table table-bordered">
 		<thead>
 			<?php if ($isAdmin): ?>
 				<th>id</th>
@@ -36,14 +36,14 @@
 		<tbody>
 			<?php if ($isAdmin): ?>
 				<tr>
-					<form action="flight_add_func.php" method="post">
+					<form action="flight_add_func.php" method="post" role="form">
 						<td>New Plane</td>
-						<td><input name="flightNumber" type="text" required></td>
-						<td><input name="departure" type="text" required></td>
-						<td><input name="destination" type="text" required></td>
-						<td><input name="departureDate" type="datetime-local" required></td>
-						<td><input name="arrivalDate" type="datetime-local" required></td>
-						<td><input type="submit" value="Add"></td>
+						<td><input name="flightNumber" type="text" class="form-control" required></td>
+						<td><input name="departure" type="text" class="form-control" required></td>
+						<td><input name="destination" type="text" class="form-control"  required></td>
+						<td><input name="departureDate" type="datetime-local" class="form-control"  required></td>
+						<td><input name="arrivalDate" type="datetime-local" class="form-control"  required></td>
+						<td><input type="submit" value="Add" class="btn btn-default" ></td>
 					</form>
 				</tr>
 			<?php endif; ?>
@@ -62,16 +62,17 @@
 						<td><?php echo $result->arrival_date ?></td>
 						<?php if ($isAdmin): ?>
 							<td>
-								<a href="flight_edit.php?id=<?php echo $result->id ?>">Edit</a> | 
+								<a href="flight_edit.php?id=<?php echo $result->id ?>">Edit</a> |
 								<a href="flight_delete_func.php?id=<?php echo $result->id ?>">Delete</a>
 							</td>
 						<?php endif; ?>
 					</tr>
 			<?php
 				}
-			?>			
+			?>
 		</tbody>
 	</table>
 	<link rel="stylesheet" type="text/css" href="asset/css/flight.css">
+	<?php require_once('layout/msg.php') ?>
 	<?php require_once('layout/footer.php') ?>
 <?php endif; ?>
