@@ -1,6 +1,7 @@
 ###Data Base project
 
 ####Dependency
+
 1. http server { apache | nginx }
 2. PHP and extension
 3. Database { MySql | MariaDB }
