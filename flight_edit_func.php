@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']):
 	$redirectURL = '403.php';
@@ -11,7 +11,7 @@ else:
 		$_SESSION['msg'] = "$key cannot be empty.";
 		$redirectURL = 'flight_edit.php?id='.$_POST['id'];
 	} else {
-		$sql = "UPDATE flight SET flight_number = ?, departure = ?, destination = ?, departure_date = ?, arrival_date = ? WHERE  id = ?;";
+    $sql = "UPDATE flight SET flight_number = ?, departure = ?, destination = ?, departure_date = ?, arrival_date = ? WHERE  id = ?;";
 		$sth = $db->prepare($sql);
 		$sth->execute(array(
 			$_POST['flightNumber'],
@@ -23,6 +23,6 @@ else:
 		));
 		$redirectURL = 'flight.php';
 	}
-endif;
-header('Location: '.$redirectURL);
+  endif;
+  header('Location: '.$redirectURL);
 ?>
