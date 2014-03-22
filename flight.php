@@ -1,16 +1,16 @@
-<? session_start(); ?>
-<?
+<?php session_start(); ?>
+<?php
 	if (!$_SESSION['isAuth']):
 		$redirectURL = '403.php';
 		header('Location: '.$redirectURL);
 	else:
 ?>
-	<? require_once('layout/header.php') ?>
+	<?php require_once('layout/header.php') ?>
 	<nav>
 		<a href="./">Go home</a> | <a href="./logout.php">Logout</a>
 	</nav>
-	<? require_once('layout/msg.php') ?>
-	<?
+	<?php require_once('layout/msg.php') ?>
+	<?php
 		require_once('db.php');
 
 		$sql = "SELECT * FROM flight";
@@ -18,23 +18,23 @@
 		$sth->execute();
 	?>
 
-	<? $isAdmin = $_SESSION['isAdmin']; ?>
+	<?php $isAdmin = $_SESSION['isAdmin']; ?>
 	<table>
 		<thead>
-			<? if ($isAdmin): ?>
+			<?php if ($isAdmin): ?>
 				<th>id</th>
-			<? endif; ?>
+			<?php endif; ?>
 			<th>Flight number</th>
 			<th>Departure</th>
 			<th>Destination</th>
 			<th>Departure Date</th>
 			<th>Arrival Date</th>
-			<? if ($isAdmin): ?>
+			<?php if ($isAdmin): ?>
 				<th>Operation</th>
-			<? endif; ?>
+			<?php endif; ?>
 		</thead>
 		<tbody>
-			<? if ($isAdmin): ?>
+			<?php if ($isAdmin): ?>
 				<tr>
 					<form action="flight_add_func.php" method="post">
 						<td>New Plane</td>
@@ -46,32 +46,32 @@
 						<td><input type="submit" value="Add"></td>
 					</form>
 				</tr>
-			<? endif; ?>
+			<?php endif; ?>
 
-			<?
+			<?php
 				while ($result = $sth->fetchObject()) {
 			?>
 					<tr>
-						<? if ($isAdmin): ?>
-							<td><? echo $result->id ?></td>
-						<? endif; ?>
-						<td><? echo $result->flight_number ?></td>
-						<td><? echo $result->departure ?></td>
-						<td><? echo $result->destination ?></td>
-						<td><? echo $result->departure_date ?></td>
-						<td><? echo $result->arrival_date ?></td>
-						<? if ($isAdmin): ?>
+						<?php if ($isAdmin): ?>
+							<td><?php echo $result->id ?></td>
+						<?php endif; ?>
+						<td><?php echo $result->flight_number ?></td>
+						<td><?php echo $result->departure ?></td>
+						<td><?php echo $result->destination ?></td>
+						<td><?php echo $result->departure_date ?></td>
+						<td><?php echo $result->arrival_date ?></td>
+						<?php if ($isAdmin): ?>
 							<td>
-								<a href="flight_edit.php?id=<? echo $result->id ?>">Edit</a> | 
-								<a href="flight_delete_func.php?id=<? echo $result->id ?>">Delete</a>
+								<a href="flight_edit.php?id=<?php echo $result->id ?>">Edit</a> | 
+								<a href="flight_delete_func.php?id=<?php echo $result->id ?>">Delete</a>
 							</td>
-						<? endif; ?>
+						<?php endif; ?>
 					</tr>
-			<?
+			<?php
 				}
 			?>			
 		</tbody>
 	</table>
 	<link rel="stylesheet" type="text/css" href="asset/css/flight.css">
-	<? require_once('layout/footer.php') ?>
-<? endif; ?>
+	<?php require_once('layout/footer.php') ?>
+<?php endif; ?>

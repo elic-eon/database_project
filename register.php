@@ -1,7 +1,7 @@
-<? require_once('layout/header.php') ?>
+<?php require_once('layout/header.php') ?>
 <div class="col-md-6">
   <h2>Register a New Account</h2>
-  <? require_once('layout/msg.php') ?>
+  <?php require_once('layout/msg.php') ?>
   <form action="register_func.php" method="post" role="form">
     <div class="form-group">
       <label for="account" class="control-label">Account</label>
@@ -22,4 +22,4 @@
   </form>
   <a href="./">Go Home</a>
 </div>
-<? require_once('layout/footer.php') ?>
+<?php require_once('layout/footer.php') ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']):
 	$redirectURL = '403.php';
