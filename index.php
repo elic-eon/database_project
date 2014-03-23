@@ -1,8 +1,9 @@
 <?php require_once('layout/header.php') ?>
-<div class="col-sm-12">
+<div class="col-sm-4 col-sm-offset-4">
+  <?php require_once('layout/msg.php') ?>
   <H2>Flight Scheduld</H2>
 </div>
-<div class="col-sm-4">
+<div class="col-sm-4 col-sm-offset-4">
   <ul class="nav nav-pills nav-stacked">
     <li><a href="flight.php">Flight</a></li>
     <li><a href="register.php">Register</a></li>
@@ -15,5 +16,4 @@
     </li>
   </ul>
 </div>
-<?php require_once('layout/msg.php') ?>
 <?php require_once('layout/footer.php') ?>

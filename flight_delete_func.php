@@ -1,4 +1,6 @@
 <?php
+require_once('./config.php');
+session_save_path($SESSION_STORE);
 session_start();
 if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']):
 	$redirectURL = '403.php';

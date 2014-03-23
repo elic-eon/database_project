@@ -1,7 +1,8 @@
 <?php require_once('layout/header.php') ?>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6 col-md-offset-3">
     <h2>Please Login</h2>
+    <?php require_once('layout/msg.php') ?>
     <form action="login_func.php" method="post" role="form" >
       <div class="form-group">
         <label for="account" class="control-label">Account</label>
@@ -23,5 +24,4 @@
     <a href="./">Go Home</a>
   </div>
 </div>
-<?php require_once('layout/msg.php') ?>
 <?php require_once('layout/footer.php') ?>

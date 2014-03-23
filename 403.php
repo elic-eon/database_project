@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php
+require_once('./config.php');
+session_save_path($SESSION_STORE);
+session_start();
+?>
 <?php require_once('layout/header.php') ?>
 <h1>403 Forbidden</h1>
 <p>
