@@ -10,10 +10,11 @@ session_start();
 	else:
 ?>
 	<?php require_once('layout/header.php') ?>
-  <ul class="nav nav-pills">
-    <li><a href="./">Home</a></li>
-    <li><a href="./logout.php">Logout</a></li>
-  </ul>
+	<ul class="nav nav-pills">
+		<li><a href="./">Home</a></li>
+		<li><a href="./logout.php">Logout</a></li>
+	</ul>
+	<?php require_once('layout/msg.php') ?>
 	<?php
 		require_once('db.php');
 
@@ -77,6 +78,5 @@ session_start();
 		</tbody>
 	</table>
 	<link rel="stylesheet" type="text/css" href="asset/css/flight.css">
-	<?php require_once('layout/msg.php') ?>
 	<?php require_once('layout/footer.php') ?>
 <?php endif; ?>

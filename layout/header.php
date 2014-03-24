@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php
+	require_once('/net/cs/101/0116239/public_html/filghtSchedule/config.php');
+	session_save_path($SESSION_STORE);
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 	<head>

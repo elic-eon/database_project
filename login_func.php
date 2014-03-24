@@ -1,9 +1,9 @@
 <?php
-require_once('config.php');
+require_once('./config.php');
 session_save_path($SESSION_STORE);
 session_start();
-require_once('db.php');
-require_once('module/checkData.php');
+require_once('./db.php');
+require_once('./module/checkData.php');
 
 $key = isDataInvalid();
 if ($key) {
