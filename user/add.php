@@ -16,28 +16,29 @@ require_once('../layout/msg.php');
 ?>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <h2>Please Login</h2>
-    <?php require_once('../layout/msg.php') ?>
-    <form action="login_func.php" method="post" role="form" >
+  <div class="col-lg-12">
+    <h1 class="page-header">Add User</h1>
+    <form action="add_func.php" method="post" class="form-horizontal" role="form">
       <div class="form-group">
-        <label for="account" class="control-label">Account</label>
-        <div>
+        <label for="account" class="col-sm-2 control-label">Account</label>
+        <div class="col-sm-4">
           <input name="account" type="text" class="form-control" id="account" placeholder="Your account" required>
         </div>
       </div>
       <div class="form-group">
-        <label for="password" class="control-label">Password</label>
-        <div>
-          <input name="password" type="password" class="form-control" id="password" placeholder="Your password"required>
+        <label for="password" class="col-sm-2 control-label">Password</label>
+        <div class="col-sm-4">
+          <input name="password" type="password" class="form-control" id="form-group" placeholder="Your password" required>
         </div>
       </div>
       <div class="form-group">
-        <input type="submit" value="Login" class="btn btn-default"> or <a href="register.php">Register a new account</a>
+        <div class="col-sm-offset-2 col-sm-8">
+          <input type="submit" value="Add" class="btn btn-default"></p>
+        </div>
       </div>
     </form>
-    <p> </p>
-    <a href="../">Go Home</a>
   </div>
+    <!-- /.col-lg-12 -->
 </div>
-<?php require_once('../layout/footer_general.php') ?>
+<!-- /.row -->
+<?php require_once('../layout/footer.php'); ?>
