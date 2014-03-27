@@ -40,7 +40,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo PATH_ROOT_URL; ?>">Flight Schedule</a>
+                <a class="navbar-brand" href="<?php echo PATH_ROOT_URL; ?>/schedule">Flight Schedule</a>
             </div>
             <!-- /.navbar-header -->
 
