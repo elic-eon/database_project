@@ -1,4 +1,15 @@
 <?php require_once('../layout/header_general.php') ?>
+<?php
+require_once('../config.php');
+session_save_path(PATH_SESSION_STORE);
+session_start();
+
+if ($_SESSION['isAuth']) {
+	$redirectURL = PATH_ROOT_URL.'/schedule/index.php';
+	header('Location: '.$redirectURL);
+	exit;
+}
+?>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h2>Please Login</h2>
