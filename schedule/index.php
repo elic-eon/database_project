@@ -95,13 +95,13 @@ function generateOrderHtml ($key) {
 			<thead>
 				<tr>
 					<?php if ($isAdmin): ?>
-						<th class="col-sm-2">id<?php echo generateOrderHtml('id') ?></th>
+						<th>id<?php echo generateOrderHtml('id') ?></th>
 					<?php endif; ?>
 					<th>Flight number<?php echo generateOrderHtml('flight_number') ?></th>
 					<th>Departure<?php echo generateOrderHtml('departure') ?></th>
 					<th>Destination<?php echo generateOrderHtml('destination') ?></th>
-					<th class="col-sm-1">Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
-					<th class="col-sm-1">Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
+					<th>Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
+					<th>Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
 					<th>Price<?php echo generateOrderHtml('price') ?></th>
 					<?php if ($isAdmin): ?>
 						<th>Operation</th>
@@ -124,8 +124,8 @@ function generateOrderHtml ($key) {
 							<td><?php echo $result->price ?></td>
 							<?php if ($isAdmin): ?>
 								<td>
-									<a href="edit.php?id=<?php echo $result->id ?>">Edit</a> |
-									<a href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
+									<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
+									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
 								</td>
 							<?php endif; ?>
 						</tr>
@@ -136,12 +136,12 @@ function generateOrderHtml ($key) {
 					<tr>
 						<form action="add_func.php" method="post" role="form">
 							<td>Quick Add</td>
-							<td><input name="flightNumber" type="text" class="form-control" required></td>
-							<td><input name="departure" type="text" class="form-control" required></td>
-							<td><input name="destination" type="text" class="form-control"  required></td>
-							<td><input name="departureDate" type="datetime-local" class="form-control"  required></td>
-							<td><input name="arrivalDate" type="datetime-local" class="form-control"  required></td>
-							<td><input name="price" type="text" class="form-control"  required></td>
+							<td><input name="flightNumber" type="text" class="form-control input-sm" required></td>
+							<td><input name="departure" type="text" class="form-control input-sm" required></td>
+							<td><input name="destination" type="text" class="form-control input-sm"  required></td>
+							<td><input name="departureDate" type="datetime-local" class="form-control input-sm"  required></td>
+							<td><input name="arrivalDate" type="datetime-local" class="form-control input-sm"  required></td>
+							<td><input name="price" type="text" class="form-control input-sm"  required></td>
 							<td><input type="submit" value="Add" class="btn btn-default" ></td>
 						</form>
 					</tr>
