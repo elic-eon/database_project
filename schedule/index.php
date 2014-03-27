@@ -8,98 +8,49 @@ if (!$_SESSION['isAuth']) {
 	header('Location: '.$redirectURL);
 	exit;
 }
-
-// Prevent injection
-global $columnNameMap;
-global $directionMap;
-
-$columnNameMap = array(
-	'id' => 'id',
-	'flight_number' => 'flight_number',
-	'departure' => 'departure',
-	'destination' => 'destination',
-	'departure_date' => 'departure_date',
-	'arrival_date' => 'arrival_date',
-	'price' => 'price'
-);
-
-$directionMap = array(
-	'asc' => 'asc',
-	'desc' => 'desc'
-);
-
-function generateOrderHtml ($key) {
-	// default html
-	$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection=asc">'.
-				' <i class="fa fa-sort"></i>'.
-			'</a>';;
-
-	// If user defines sort
-	if (isset($_GET['orderKey']) && isset($_GET['orderDirection'])) {
-		$orderKey = $_GET['orderKey'];
-		$orderDirection = $_GET['orderDirection'];
-
-		$params = "?orderKey=$key&orderDirection=asc";
-		$newIcon = 'fa fa-sort';
-		$newDirection = 'asc';
-
-		if ($key == $orderKey) {
-			if ($orderDirection == 'asc') {
-				$newIcon = 'fa fa-sort-asc';
-				$newDirection = 'desc';
-			} else if ($orderDirection == 'desc') {
-				$newIcon = 'fa fa-sort-desc';
-				$newDirection = 'asc';
-			}
-			$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection='.$newDirection.'">'.
-						' <i class="'.$newIcon.'"></i>'.
-					'</a>';
-		}
-	}
-
-	return $html;
-}
-
 ?>
 
+<?php require_once('../module/generateOrderHtml.php') ?>
 <?php require_once('../layout/header.php') ?>
 <?php require_once('../layout/msg.php') ?>
 <div class="row">
-    <div class="col-lg-12">
+	<div class="col-lg-12">
 		<h1 class="page-header">Schedule</h1>
-
+		<div class="well">
+			<a class="btn btn-default" href="#"><i class="fa fa-plus"></i> Add to Comparison Sheet</a>
+			<!-- <a class="btn btn-default" data-toggle="modal" data-target="#quickAdd" href="#"><i class="fa fa-plus"></i> Quick Add</a> -->
+			<a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i> Delete</a>
+		</div>
 		<?php
 			require_once('../module/db.php');
 
-			$defaultOrder = 'flight_number ASC';
+			$order = 'flight_number ASC';
 			$sth = null;
 
 			// If user defines some kind of sort
 			if (isset($_GET['orderKey']) && isset($_GET['orderDirection'])) {
-				$orderKey = $columnNameMap[$_GET['orderKey']];
-				$orderDirection = $directionMap[$_GET['orderDirection']];
-				$sql = "SELECT * FROM flight ORDER BY $orderKey $orderDirection, $defaultOrder";
-			} else {
-				$sql = "SELECT * FROM flight ORDER BY $defaultOrder";
+				$orderKey = addslashes($_GET['orderKey']);
+				$orderDirection = addslashes($_GET['orderDirection']);
+				$order = "$orderKey $orderDirection, $order";
 			}
+			$sql = "SELECT * FROM flight ORDER BY $order";
 			$sth = $db->prepare($sql);
-			$sth->execute();
-			
+			$sth->execute();	
 		?>
 
 		<?php $isAdmin = $_SESSION['isAdmin']; ?>
-		<table class="table table-condensed table-hover">
-			<thead>
+		<table class="table table-condensed table-hover" id="schedule">
+			<thead id="schedule_head">
 				<tr>
 					<?php if ($isAdmin): ?>
-						<th>id<?php echo generateOrderHtml('id') ?></th>
+						<th style="width: 70px;">id<?php echo generateOrderHtml('id') ?></th>
 					<?php endif; ?>
-					<th>Flight number<?php echo generateOrderHtml('flight_number') ?></th>
-					<th>Departure<?php echo generateOrderHtml('departure') ?></th>
-					<th>Destination<?php echo generateOrderHtml('destination') ?></th>
-					<th>Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
-					<th>Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
-					<th>Price<?php echo generateOrderHtml('price') ?></th>
+					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
+					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure') ?></th>
+					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination') ?></th>
+					<th style="width: 160px;">Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
+					<th style="width: 160px;">Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
+					<th style="width: 80px;">Price<?php echo generateOrderHtml('price') ?></th>
 					<?php if ($isAdmin): ?>
 						<th>Operation</th>
 					<?php endif; ?>
@@ -111,43 +62,65 @@ function generateOrderHtml ($key) {
 				?>
 						<tr>
 							<?php if ($isAdmin): ?>
-								<td><?php echo $result->id ?></td>
+								<td style="width: 70px;"><?php echo $result->id ?></td>
 							<?php endif; ?>
-							<td><?php echo $result->flight_number ?></td>
-							<td><?php echo $result->departure ?></td>
-							<td><?php echo $result->destination ?></td>
-							<td><?php echo $result->departure_date ?></td>
-							<td><?php echo $result->arrival_date ?></td>
-							<td><?php echo $result->price ?></td>
+							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
+							<td style="width: 110px;"><?php echo $result->departure ?></td>
+							<td style="width: 120px;"><?php echo $result->destination ?></td>
+							<td style="width: 160px;"><?php echo $result->departure_date ?></td>
+							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
+							<td style="width: 80px;"><?php echo $result->price ?></td>
 							<?php if ($isAdmin): ?>
 								<td>
-									<a class="btn btn-xs btn-block btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
-									<a class="btn btn-xs btn-block btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
+									<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
+									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
 								</td>
 							<?php endif; ?>
 						</tr>
 				<?php
 					}
 				?>
-				<?php if ($isAdmin): ?>
-					<tr>
-						<form action="add_func.php" method="post" role="form">
-							<td>Quick Add</td>
-							<td><input name="flightNumber" type="text" class="form-control input-sm" required></td>
-							<td><input name="departure" type="text" class="form-control input-sm" required></td>
-							<td><input name="destination" type="text" class="form-control input-sm"  required></td>
-							<td><input name="departureDate" type="datetime-local" class="form-control input-sm"  required></td>
-							<td><input name="arrivalDate" type="datetime-local" class="form-control input-sm"  required></td>
-							<td><input name="price" type="text" class="form-control input-sm"  required></td>
-							<td><input type="submit" value="Add" class="btn btn-sm btn-block btn-default" ></td>
-						</form>
-					</tr>
-				<?php endif; ?>
 			</tbody>
-		</table>
-    </div>
-    <!-- /.col-lg-12 -->
+		</table>	
+		</div>
+		<!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
 
+<style type="text/css">
+	@media(min-width:767px) {
+		.affix-top {
+			/*position: inherit;*/
+		}
+
+		.affix {
+			position: fixed;
+			top: 51px;
+			left: 281px;
+			right: 30px;
+			background-color: #fff;
+			border-bottom: 2px solid #ddd;
+		}
+
+		.affix>tr>th {
+			border-bottom: 0px solid #ddd !important;
+		}
+
+		.affix-bottom {
+			position: absolute;
+		}
+	}
+</style>
+
+<script type="text/javascript">
+	$(function () {
+		// top: 51 + $('#schedule_head').outerHeight(true),
+		$('#schedule_head').affix({
+			offset: {
+				top: $('#schedule_head').position().top,
+				bottom: $('#page-wrapper').height() - $('#schedule').position().top - $('#schedule').outerHeight()
+			}
+		});
+	});
+</script>
 <?php require_once('../layout/footer.php') ?>

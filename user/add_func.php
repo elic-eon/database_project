@@ -17,12 +17,12 @@ if ($key) {
 		$_SESSION['msg'] = 'Account exists.';
 		$redirectURL = 'add.php';
 	} else {
-		$isAdmin = false;
+		$isAdmin = $_POST['is_admin']? true: false;
 		$sql = "INSERT INTO user (account, password, is_admin) VALUES(?, ?, ?)";
 		$sth = $db->prepare($sql);
 		$sth->execute(array($_POST['account'], crypt($_POST['password'], PW_SALT), $isAdmin));
 		$_SESSION['msg'] = 'Add user successfully.';
-		$redirectURL = 'add.php';
+		$redirectURL = './';
 	}
 }
 

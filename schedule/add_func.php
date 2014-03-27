@@ -17,14 +17,14 @@ require_once('../module/checkData.php');
 $key = isDataInvalid();
 if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
-	$redirectURL = './';
+	$redirectURL = 'add.php';
 } else {
 	$sql = "SELECT * FROM flight WHERE flight_number = ?";
 	$sth = $db->prepare($sql);
 	$sth->execute(array($_POST['flightNumber']));
 	if ($sth->fetchObject()) {
 		$_SESSION['msg'] = 'Flight exists.';
-		$redirectURL = 'flight.php';
+		$redirectURL = 'add.php';
 	} else {
 		$sql = "INSERT INTO flight (flight_number, departure, destination, departure_date, arrival_date, price) VALUES(?, ?, ?, ?, ?, ?)";
 		$sth = $db->prepare($sql);
