@@ -1,0 +1,34 @@
+.breadcrumb {
+	/*border-radius: 0px;*/
+}
+
+.clear-padding {
+	margin: 0 -30px;
+}
+
+.clear-padding .breadcrumb {
+	margin-bottom: 0px;
+}
+
+.clear-padding > * {
+	border-radius: 0px;	
+}
+
+.navbar-static-top {
+	position: fixed;
+	width: 100%;
+}
+
+.navbar-static-side {
+	position: fixed;
+	top: 51px;
+}
+
+#page-wrapper {
+	min-height: inherit;
+	padding-top: 51px;
+}
+
+.page-header {
+	margin-top: 10px;
+}

@@ -1,2 +1,3 @@
 config.php
-
+sftp-config.json
+session_store/sess_*

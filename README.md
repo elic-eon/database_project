@@ -10,13 +10,20 @@
 create `config.php`
 
 ``` php
-<?php
-$DB_HOST = "your database host";
-$DB_USER = "account";
-$DB_PASSWORD = "*******";
-$DB_NAME = "nema of Data Base";
+<?
+define('DB_HOST', '');
+define('DB_USER', '');
+define('DB_PASSWORD', '');
+define('DB_NAME', '');
 
-$PW_SALT = 'some salt';
+define('PW_SALT', '');
+
+define('PATH_ROOT_FILE', '');
+define('PATH_ROOT_SITE', '');
+define('PATH_ROOT_URL', '');
+define('PATH_SESSION_STORE', PATH_ROOT_FILE.'/session_store');
 ?>
 ```
 
+####Demo
+[demo site](http://people.cs.nctu.edu.tw/~cpweng/filghtSchedule/)
