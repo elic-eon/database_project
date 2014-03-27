@@ -30,8 +30,8 @@ $directionMap = array(
 
 function generateOrderHtml ($key) {
 	// default html
-	$html = '<a class="pull-right" href="./?orderKey='.$key.'&orderDirection=asc">'.
-				'<i class="fa fa-sort"></i>'.
+	$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection=asc">'.
+				' <i class="fa fa-sort"></i>'.
 			'</a>';;
 
 	// If user defines sort
@@ -51,8 +51,8 @@ function generateOrderHtml ($key) {
 				$newIcon = 'fa fa-sort-desc';
 				$newDirection = 'asc';
 			}
-			$html = '<a class="pull-right" href="./?orderKey='.$key.'&orderDirection='.$newDirection.'">'.
-						'<i class="'.$newIcon.'"></i>'.
+			$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection='.$newDirection.'">'.
+						' <i class="'.$newIcon.'"></i>'.
 					'</a>';
 		}
 	}
@@ -78,20 +78,17 @@ function generateOrderHtml ($key) {
 			if (isset($_GET['orderKey']) && isset($_GET['orderDirection'])) {
 				$orderKey = $columnNameMap[$_GET['orderKey']];
 				$orderDirection = $directionMap[$_GET['orderDirection']];
-
 				$sql = "SELECT * FROM flight ORDER BY $orderKey $orderDirection, $defaultOrder";
-				$sth = $db->prepare($sql);
-				$sth->execute();
 			} else {
 				$sql = "SELECT * FROM flight ORDER BY $defaultOrder";
-				$sth = $db->prepare($sql);
-				$sth->execute();
 			}
+			$sth = $db->prepare($sql);
+			$sth->execute();
 			
 		?>
 
 		<?php $isAdmin = $_SESSION['isAdmin']; ?>
-		<table class="table table-bordered">
+		<table class="table table-condensed table-hover">
 			<thead>
 				<tr>
 					<?php if ($isAdmin): ?>
@@ -124,8 +121,8 @@ function generateOrderHtml ($key) {
 							<td><?php echo $result->price ?></td>
 							<?php if ($isAdmin): ?>
 								<td>
-									<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
-									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
+									<a class="btn btn-xs btn-block btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
+									<a class="btn btn-xs btn-block btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
 								</td>
 							<?php endif; ?>
 						</tr>
@@ -142,7 +139,7 @@ function generateOrderHtml ($key) {
 							<td><input name="departureDate" type="datetime-local" class="form-control input-sm"  required></td>
 							<td><input name="arrivalDate" type="datetime-local" class="form-control input-sm"  required></td>
 							<td><input name="price" type="text" class="form-control input-sm"  required></td>
-							<td><input type="submit" value="Add" class="btn btn-default" ></td>
+							<td><input type="submit" value="Add" class="btn btn-sm btn-block btn-default" ></td>
 						</form>
 					</tr>
 				<?php endif; ?>
