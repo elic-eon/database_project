@@ -19,24 +19,21 @@ if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
 	$redirectURL = 'add.php';
 } else {
-	$sql = "SELECT * FROM flight WHERE flight_number = ?";
+	$sql = "SELECT * FROM airport WHERE name = ?";
 	$sth = $db->prepare($sql);
-	$sth->execute(array($_POST['flightNumber']));
+	$sth->execute(array($_POST['name']));
 	if ($sth->fetchObject()) {
-		$_SESSION['msg'] = 'Flight exists.';
+		$_SESSION['msg'] = 'Airport exists.';
 		$redirectURL = 'add.php';
 	} else {
-		$sql = "INSERT INTO flight (flight_number, departure_id, destination_id, departure_date, arrival_date, price) VALUES(?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO airport (name, longitude, latitude) VALUES(?, ?, ?)";
 		$sth = $db->prepare($sql);
 		$sth->execute(array(
-			$_POST['flightNumber'],
-			$_POST['departure_id'],
-			$_POST['destination_id'],
-			$_POST['departureDate'],
-			$_POST['arrivalDate'],
-			$_POST['price']
+			$_POST['name'],
+			$_POST['longitude'],
+			$_POST['latitude']
 		));
-		$_SESSION['msg'] = 'Add flight successfully.';
+		$_SESSION['msg'] = 'Add airport successfully.';
 		$redirectURL = './';
 	}
 }

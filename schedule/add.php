@@ -13,6 +13,17 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 <?php
 require_once('../layout/header.php');
 require_once('../layout/msg.php');
+
+require_once('../module/db.php');
+$sql = "SELECT id, name FROM airport";
+$sth = $db->prepare($sql);
+$sth->execute();
+
+$airports = '';
+
+while ($result = $sth->fetchObject()) {
+	$airports .= '<option value="'.$result->id.'">'.$result->name.'</option>';
+}
 ?>
 
 <div class="row">
@@ -28,13 +39,17 @@ require_once('../layout/msg.php');
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
 				<div class="col-sm-4">
-					<input name="departure" type="text" class="form-control" required></p>
+					<select name="departure_id" class="form-control">
+						<?php echo $airports; ?>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
 				<div class="col-sm-4">
-					<input name="destination" type="text" class="form-control" required></p>
+					<select name="destination_id" class="form-control">
+						<?php echo $airports; ?>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">

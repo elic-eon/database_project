@@ -314,9 +314,9 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- /#side-menu -->
             </div>

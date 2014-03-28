@@ -12,17 +12,6 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 
 <?php
 require_once('../module/db.php');
-
-// Get airports
-$sql = "SELECT id, name FROM airport";
-$sth = $db->prepare($sql);
-$sth->execute();
-$airports = '';
-while ($result = $sth->fetchObject()) {
-	$airports .= '<option value="'.$result->id.'">'.$result->name.'</option>';
-}
-
-// Get schedule
 $sql = "SELECT * FROM flight WHERE id = ?";
 $sth = $db->prepare($sql);
 $sth->execute(array($_GET['id']));
@@ -47,17 +36,13 @@ require_once('../layout/msg.php');
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
 				<div class="col-sm-4">
-					<select name="departure_id" class="form-control">
-						<?php echo $airports; ?>
-					</select>
+					<input name="departure" type="text" class="form-control" value="<?php echo $result->departure ?>" required></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
 				<div class="col-sm-4">
-					<select name="destination_id" class="form-control">
-						<?php echo $airports; ?>
-					</select>
+					<input name="destination" type="text" class="form-control" value="<?php echo $result->destination ?>" required></p>
 				</div>
 			</div>
 			<div class="form-group">
@@ -86,11 +71,4 @@ require_once('../layout/msg.php');
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-
-<script type="text/javascript">
-	$(function () {
-		$('select[name=destination_id] option[value=<?php echo $result->destination_id ?>]').attr('selected', 'selected');
-		$('select[name=departure_id] option[value=<?php echo $result->departure_id ?>]').attr('selected', 'selected');
-	})
-</script>
 <?php require_once('../layout/footer.php'); ?>

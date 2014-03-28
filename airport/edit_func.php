@@ -19,15 +19,12 @@ if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
 	$redirectURL = 'edit.php?id='.$_POST['id'];
 } else {
-	$sql = "UPDATE flight SET flight_number = ?, departure_id = ?, destination_id = ?, departure_date = ?, arrival_date = ?, price = ? WHERE  id = ?;";
+	$sql = "UPDATE airport SET name = ?, longitude = ?, latitude = ? WHERE  id = ?;";
 	$sth = $db->prepare($sql);
 	$sth->execute(array(
-		$_POST['flightNumber'],
-		$_POST['departure_id'],
-		$_POST['destination_id'],
-		$_POST['departureDate'],
-		$_POST['arrivalDate'],
-		$_POST['price'],
+		$_POST['name'],
+		$_POST['longitude'],
+		$_POST['latitude'],
 		$_POST['id']
 	));
 	$redirectURL = './';
