@@ -16,6 +16,7 @@ if ($key) {
 	$result = $sth->fetchObject();
 	if ($result) {
 		$_SESSION['isAuth'] = true;
+		$_SESSION['uid'] = $result->id;
 		$_SESSION['isAdmin'] = $result->is_admin;
 		$redirectURL = '../schedule/';
 	} else {

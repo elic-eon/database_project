@@ -15,10 +15,8 @@ if (!$_SESSION['isAuth']) {
 <?php require_once('../layout/msg.php') ?>
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Schedule</h1>
+		<h1 class="page-header">Comparison Sheet</h1>
 		<div class="well">
-			<a class="btn btn-default" href="#"><i class="fa fa-plus"></i> Add to Comparison Sheet</a>
-			<!-- <a class="btn btn-default" data-toggle="modal" data-target="#quickAdd" href="#"><i class="fa fa-plus"></i> Quick Add</a> -->
 			<a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i> Delete</a>
 		</div>
 		<?php
@@ -33,27 +31,34 @@ if (!$_SESSION['isAuth']) {
 				$orderDirection = addslashes($_GET['orderDirection']);
 				$order = "$orderKey $orderDirection, $order";
 			}
-			$sql = "SELECT * FROM flight ORDER BY $order";
+			$sql = "SELECT comparison.id AS comparison_id, a.* ".
+				   "FROM comparison, ".
+				   "( ".
+				   "    SELECT tmp.*, airport.name AS destination_name ".
+				   "    FROM ".
+				   "    ( ".
+				   "        SELECT flight.*, airport.name AS departure_name ".
+				   "        FROM flight, airport ".
+				   "        WHERE flight.departure_id = airport.id ".
+				   "    ) AS tmp, airport ".
+				   "    WHERE tmp.destination_id = airport.id".
+				   ") AS a ".
+				   "WHERE a.id = comparison.flight_id AND comparison.user_id = ? ".
+				   "ORDER BY $order";
 			$sth = $db->prepare($sql);
-			$sth->execute();	
+			$sth->execute(array($_SESSION['uid']));
 		?>
 
-		<?php $isAdmin = $_SESSION['isAdmin']; ?>
 		<table class="table table-condensed table-hover" id="schedule">
 			<thead id="schedule_head">
 				<tr>
-					<?php if ($isAdmin): ?>
-						<th style="width: 70px;">id<?php echo generateOrderHtml('id') ?></th>
-					<?php endif; ?>
 					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
-					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure') ?></th>
-					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination') ?></th>
+					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure_name') ?></th>
+					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination_name') ?></th>
 					<th style="width: 160px;">Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
 					<th style="width: 160px;">Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
 					<th style="width: 80px;">Price<?php echo generateOrderHtml('price') ?></th>
-					<?php if ($isAdmin): ?>
-						<th>Operation</th>
-					<?php endif; ?>
+					<th>Operation</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -61,21 +66,15 @@ if (!$_SESSION['isAuth']) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
-							<?php if ($isAdmin): ?>
-								<td style="width: 70px;"><?php echo $result->id ?></td>
-							<?php endif; ?>
 							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
-							<td style="width: 110px;"><?php echo $result->departure ?></td>
-							<td style="width: 120px;"><?php echo $result->destination ?></td>
+							<td style="width: 110px;"><?php echo $result->departure_name ?></td>
+							<td style="width: 120px;"><?php echo $result->destination_name ?></td>
 							<td style="width: 160px;"><?php echo $result->departure_date ?></td>
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;"><?php echo $result->price ?></td>
-							<?php if ($isAdmin): ?>
-								<td>
-									<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
-									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
-								</td>
-							<?php endif; ?>
+							<td>
+								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->comparison_id ?>">Delete</a>
+							</td>
 						</tr>
 				<?php
 					}

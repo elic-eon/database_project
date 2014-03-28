@@ -43,7 +43,6 @@ if (!$_SESSION['isAuth']) {
 				   ") AS tmp, airport ".
 				   "WHERE tmp.destination_id = airport.id ".
 				   "ORDER BY $order";
-			// $sql = "SELECT * FROM flight JOIN (SELECT * FROM airport WHERE ) ORDER BY $order";
 			$sth = $db->prepare($sql);
 			$sth->execute();
 		?>
@@ -79,11 +78,20 @@ if (!$_SESSION['isAuth']) {
 							<td style="width: 120px;"><?php echo $result->destination_name ?></td>
 							<td style="width: 160px;"><?php echo $result->departure_date ?></td>
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
-							<td style="width: 80px;"><?php echo $result->price ?></td>
+							<td style="width: 80px;">$ <?php echo $result->price ?></td>
 							<?php if ($isAdmin): ?>
 								<td>
 									<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
-									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
+									<div class="btn-group">
+										<button type="button" class="btn btn-xs btn-danger dropdown-toggle" data-toggle="dropdown">
+											Other <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu pull-right" role="menu">
+											<li><a href="add_comparison_func.php?id=<?php echo $result->id ?>">Add to comparison sheet</a></li>
+											<li class="divider"></li>
+											<li><a href="delete_func.php?id=<?php echo $result->id ?>">Delete</a></li>
+										</ul>
+									</div>
 								</td>
 							<?php endif; ?>
 						</tr>
@@ -110,6 +118,7 @@ if (!$_SESSION['isAuth']) {
 			right: 30px;
 			background-color: #fff;
 			border-bottom: 2px solid #ddd;
+			z-index: 999;
 		}
 
 		.affix>tr>th {

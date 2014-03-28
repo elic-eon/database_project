@@ -279,16 +279,7 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-money fa-fw"></i> Comparison Sheet<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/compare/">View</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/compare/add.php">Add</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
+                        <a href="<?php echo PATH_ROOT_URL; ?>/comparison/"><i class="fa fa-money fa-fw"></i> Comparison Sheet</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-plane fa-fw"></i> Airport<span class="fa arrow"></span></a>
