@@ -13,19 +13,28 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 
 require_once('../module/db.php');
 
-$sql = "DELETE FROM user WHERE id = ?";
-$sth = $db->prepare($sql);
-$sth->execute(array($_GET['id']));
-
+// Get session_id before the user is removed
 $sql = "SELECT session_id FROM user WHERE id = ?";
 $sth = $db->prepare($sql);
 $sth->execute(array($_GET['id']));
 $result = $sth->fetchObject();
-if ($result->session_id) {
+$session_id = $result->session_id;
+
+$sql = "DELETE FROM user WHERE id = ?";
+$sth = $db->prepare($sql);
+$sth->execute(array($_GET['id']));
+
+if ($session_id) {
+	// Switch session
 	$mySessionId = session_id();
-	session_id($result->session_id);
+	session_write_close();
+	session_save_path(PATH_SESSION_STORE);
+	session_id($session_id);
 	session_start();
+	$_SESSION['isAuth'] = false;
 	$_SESSION['isDelete'] = true;
+	session_write_close();
+	session_save_path(PATH_SESSION_STORE);
 	session_id($mySessionId);
 	session_start();
 }
