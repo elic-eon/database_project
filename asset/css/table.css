@@ -1,0 +1,27 @@
+@media(min-width:767px) {
+	#datalist_head {
+		z-index: 999;
+		background-color: #fff;
+	}
+
+	.affix-top {
+		/*position: inherit;*/
+	}
+
+	.affix {
+		position: fixed;
+		top: 51px;
+		left: 281px;
+		right: 30px;
+		border-bottom: 2px solid #ddd;
+	}
+
+	.affix>tr>th {
+		border-bottom: 0px solid #ddd !important;
+	}
+
+	.affix-bottom {
+		position: absolute;
+		width: 100%;
+	}
+}

@@ -47,8 +47,8 @@ if (!$_SESSION['isAuth']) {
 		?>
 
 		<?php $isAdmin = $_SESSION['isAdmin']; ?>
-		<table class="table table-condensed table-hover" id="schedule">
-			<thead id="schedule_head">
+		<table class="table table-condensed table-hover" id="datalist">
+			<thead id="datalist_head">
 				<tr>
 					<?php if ($isAdmin): ?>
 						<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
@@ -90,40 +90,7 @@ if (!$_SESSION['isAuth']) {
 </div>
 <!-- /.row -->
 
-<style type="text/css">
-	@media(min-width:767px) {
-		.affix-top {
-			/*position: inherit;*/
-		}
+<link href="<?php echo PATH_ROOT_URL; ?>/asset/css/table.css" rel="stylesheet">
+<script src="<?php echo PATH_ROOT_URL; ?>/asset/js/table.js"></script>
 
-		.affix {
-			position: fixed;
-			top: 51px;
-			left: 281px;
-			right: 30px;
-			background-color: #fff;
-			border-bottom: 2px solid #ddd;
-		}
-
-		.affix>tr>th {
-			border-bottom: 0px solid #ddd !important;
-		}
-
-		.affix-bottom {
-			position: absolute;
-		}
-	}
-</style>
-
-<script type="text/javascript">
-	$(function () {
-		// top: 51 + $('#schedule_head').outerHeight(true),
-		$('#schedule_head').affix({
-			offset: {
-				top: $('#schedule_head').position().top,
-				bottom: $('#page-wrapper').height() - $('#schedule').position().top - $('#schedule').outerHeight()
-			}
-		});
-	});
-</script>
 <?php require_once('../layout/footer.php') ?>
