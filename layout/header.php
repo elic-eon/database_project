@@ -2,6 +2,7 @@
 	require_once(dirname(__FILE__).'/../config.php');
 	session_save_path(PATH_SESSION_STORE);
 	session_start();
+    $isAdmin = $_SESSION['isAdmin'];
 ?>
 
 <!DOCTYPE html>
@@ -266,45 +267,54 @@
                         </div> -->
                         <!-- /input-group -->
                     <!-- </li> -->
-                    <li>
-                        <a href="#"><i class="fa fa-table fa-fw"></i> Schedule<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/">View</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/add.php">Add</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
+                    <?php if ($isAdmin): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-table fa-fw"></i> Schedule<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/schedule/">View</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/schedule/add.php">Add</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <a href="<?php echo PATH_ROOT_URL; ?>/schedule/"><i class="fa fa-table fa-fw"></i> Schedule</a>
+                        </li>
+                    <?php endif; ?>
+
                     <li>
                         <a href="<?php echo PATH_ROOT_URL; ?>/comparison/"><i class="fa fa-money fa-fw"></i> Comparison Sheet</a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-plane fa-fw"></i> Airport<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/airport/">View</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/airport/add.php">Add</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/user/">View</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/user/add.php">Add</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
+                    <?php if ($isAdmin): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-plane fa-fw"></i> Airport<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/airport/">View</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/airport/add.php">Add</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/user/">View</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/user/add.php">Add</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    <?php endif; ?>
                     <!-- <li>
                         <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                     </li> -->

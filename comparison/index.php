@@ -16,9 +16,6 @@ if (!$_SESSION['isAuth']) {
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Comparison Sheet</h1>
-		<div class="well">
-			<a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i> Delete</a>
-		</div>
 		<?php
 			require_once('../module/db.php');
 
@@ -49,9 +46,13 @@ if (!$_SESSION['isAuth']) {
 			$sth->execute(array($_SESSION['uid']));
 		?>
 
+		<?php $isAdmin = $_SESSION['isAdmin']; ?>
 		<table class="table table-condensed table-hover" id="schedule">
 			<thead id="schedule_head">
 				<tr>
+					<?php if ($isAdmin): ?>
+						<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
+					<?php endif; ?>
 					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
 					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure_name') ?></th>
 					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination_name') ?></th>
@@ -66,6 +67,9 @@ if (!$_SESSION['isAuth']) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
+							<?php if ($isAdmin): ?>
+								<td style="width: 70px;"><?php echo $result->id ?></td>
+							<?php endif; ?>
 							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
 							<td style="width: 110px;"><?php echo $result->departure_name ?></td>
 							<td style="width: 120px;"><?php echo $result->destination_name ?></td>

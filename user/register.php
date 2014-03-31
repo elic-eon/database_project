@@ -1,4 +1,3 @@
-<?php require_once('../layout/header_general.php') ?>
 <?php
 require_once('../config.php');
 session_save_path(PATH_SESSION_STORE);
@@ -10,6 +9,8 @@ if ($_SESSION['isAuth']) {
 	exit;
 }
 ?>
+
+<?php require_once('../layout/header_general.php') ?>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h2>Register a New Account</h2>
@@ -25,9 +26,9 @@ if ($_SESSION['isAuth']) {
         <label for="password" class="control-label">Password</label>
         <input name="password" type="password" class="form-control" id="form-group" placeholder="Your password" required>
       </div>
-      <div class="checkbox">
+      <!-- <div class="checkbox">
         <input name="is_admin" type="checkbox">Register as admin
-      </div>
+      </div> -->
       <div class="form-group">
         <input type="submit" value="Register" class="btn btn-default"></p>
       </div>

@@ -40,7 +40,7 @@ require_once('../layout/msg.php');
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-8">
-					<input type="submit" value="Add" class="btn btn-default"></p>
+					<input type="submit" value="Add" class="btn btn-default">  |  <a href="./">Cancel</a></p>
 				</div>
 			</div>
 		</form>

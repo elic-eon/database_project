@@ -8,9 +8,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 	header('Location: '.$redirectURL);
 	exit;
 }
-?>
 
-<?php
+
+
 require_once('../layout/header.php');
 require_once('../layout/msg.php');
 ?>

@@ -15,6 +15,13 @@ if ($key) {
 	$sth->execute(array($_POST['account'], crypt($_POST['password'], PW_SALT)));
 	$result = $sth->fetchObject();
 	if ($result) {
+		$sql = "UPDATE user SET session_id = ? WHERE id = ?";
+		$sth = $db->prepare($sql);
+		$sth->execute(array(
+			session_id(),
+			$result->id
+		));
+
 		$_SESSION['isAuth'] = true;
 		$_SESSION['uid'] = $result->id;
 		$_SESSION['isAdmin'] = $result->is_admin;

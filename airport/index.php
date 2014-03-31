@@ -17,7 +17,7 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 	<div class="col-lg-12">
 		<h1 class="page-header">Airport</h1>
 		<div class="well">
-			<a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i> Delete</a>
+			<a class="btn btn-default" href="add.php"><i class="fa fa-plus"></i> Add New Airport</a>
 		</div>
 		<?php
 			require_once('../module/db.php');
@@ -39,10 +39,10 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 		<table class="table table-condensed table-hover" id="schedule">
 			<thead id="schedule_head">
 				<tr>
-					<th>ID<?php echo generateOrderHtml('id') ?></th>
-					<th>Name<?php echo generateOrderHtml('name') ?></th>
-					<th>Longitude<?php echo generateOrderHtml('longitude') ?></th>
-					<th>Latitude<?php echo generateOrderHtml('latitude') ?></th>
+					<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
+					<th style="width: 150px;">Name<?php echo generateOrderHtml('name') ?></th>
+					<th style="width: 200px;">Longitude<?php echo generateOrderHtml('longitude') ?></th>
+					<th style="width: 200px;">Latitude<?php echo generateOrderHtml('latitude') ?></th>
 					<th>Operation</th>
 				</tr>
 			</thead>
@@ -51,10 +51,10 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
-							<td><?php echo $result->id ?></td>
-							<td><?php echo $result->name ?></td>
-							<td><?php echo $result->longitude ?></td>
-							<td><?php echo $result->latitude ?></td>
+							<td style="width: 70px;"><?php echo $result->id ?></td>
+							<td style="width: 150px;"><?php echo $result->name ?></td>
+							<td style="width: 200px;"><?php echo $result->longitude ?></td>
+							<td style="width: 200px;"><?php echo $result->latitude ?></td>
 							<td>
 								<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
 								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>

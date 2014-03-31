@@ -14,10 +14,20 @@ if (!$_SESSION['isAuth']) {
 require_once('../module/db.php');
 require_once('../module/checkData.php');
 
+// Check whether account exists
+$sql = "SELECT * FROM user WHERE id = ?";
+$sth = $db->prepare($sql);
+$sth->execute(array($_SESSION['uid']));
+if (!$sth->fetchObject()) {
+	$redirectURL = PATH_ROOT_URL.'/user/logout.php';
+	header('Location: '.$redirectURL);
+	exit;
+}
+
 $key = isDataInvalid();
 if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
-	$redirectURL = 'add.php';
+	$redirectURL = '../schedule/';
 } else {
 	$sql = "SELECT * FROM comparison WHERE user_id = ? AND flight_id = ?";
 	$sth = $db->prepare($sql);
@@ -25,18 +35,19 @@ if ($key) {
 		$_SESSION['uid'],
 		$_GET['id']
 	));
+
 	if ($sth->fetchObject()) {
 		$_SESSION['msg'] = 'Comparison exists.';
-		$redirectURL = './';
+		$redirectURL = '../schedule';
 	} else {
 		$sql = "INSERT INTO comparison (user_id, flight_id) VALUES(?, ?)";
 		$sth = $db->prepare($sql);
-		$sth->execute(array(
+		$r = $sth->execute(array(
 			$_SESSION['uid'],
 			$_GET['id']
 		));
 		$_SESSION['msg'] = 'Add comparison successfully.';
-		$redirectURL = './';
+		$redirectURL = '../schedule';
 	}
 }
 

@@ -8,9 +8,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 	header('Location: '.$redirectURL);
 	exit;
 }
-?>
 
-<?php
+
+
 require_once('../layout/header.php');
 require_once('../layout/msg.php');
 
@@ -71,7 +71,7 @@ while ($result = $sth->fetchObject()) {
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-8"><input type="submit" class="btn btn-default"value="Create">  |  <a href="./">Cancel</a></div>
+				<div class="col-sm-offset-2 col-sm-8"><input type="submit" class="btn btn-default" value="Create">  |  <a href="./">Cancel</a></div>
 			</div>
 		</form>
 	</div>

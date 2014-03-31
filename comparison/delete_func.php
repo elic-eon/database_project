@@ -9,6 +9,12 @@ if (!$_SESSION['isAuth']) {
 	exit;
 }
 
+if ($_SESSION['isDelete']) {
+	$redirectURL = PATH_ROOT_URL.'/user/logout.php';
+	header('Location: '.$redirectURL);
+	exit;
+}
+
 
 
 require_once('../module/db.php');

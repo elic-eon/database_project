@@ -17,6 +17,19 @@ $sql = "DELETE FROM user WHERE id = ?";
 $sth = $db->prepare($sql);
 $sth->execute(array($_GET['id']));
 
+$sql = "SELECT session_id FROM user WHERE id = ?";
+$sth = $db->prepare($sql);
+$sth->execute(array($_GET['id']));
+$result = $sth->fetchObject();
+if ($result->session_id) {
+	$mySessionId = session_id();
+	session_id($result->session_id);
+	session_start();
+	$_SESSION['isDelete'] = true;
+	session_id($mySessionId);
+	session_start();
+}
+
 $_SESSION['msg'] = 'Delete user successfully.';
 $redirectURL = './';
 

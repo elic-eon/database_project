@@ -1,4 +1,3 @@
-<?php require_once('../layout/header_general.php') ?>
 <?php
 require_once('../config.php');
 session_save_path(PATH_SESSION_STORE);
@@ -10,6 +9,8 @@ if ($_SESSION['isAuth']) {
 	exit;
 }
 ?>
+
+<?php require_once('../layout/header_general.php') ?>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h2>Please Login</h2>

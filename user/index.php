@@ -17,7 +17,7 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
     <div class="col-lg-12">
 		<h1 class="page-header">User</h1>
 		<div class="well">
-			<a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i> Delete</a>
+			<a class="btn btn-default" href="add.php"><i class="fa fa-plus"></i> Add New User</a>
 		</div>
 		<?php
 			require_once('../module/db.php');
@@ -39,9 +39,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 		<table class="table table-condensed table-hover" id="schedule">
 			<thead id="schedule_head">
 				<tr>
-					<th>ID<?php echo generateOrderHtml('id') ?></th>
-					<th>Account<?php echo generateOrderHtml('account') ?></th>
-					<th>Authority<?php echo generateOrderHtml('is_admin') ?></th>
+					<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
+					<th style="width: 140px;">Account<?php echo generateOrderHtml('account') ?></th>
+					<th style="width: 100px;">Authority<?php echo generateOrderHtml('is_admin') ?></th>
 					<th>Operation</th>
 				</tr>
 			</thead>
@@ -50,9 +50,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
-							<td><?php echo $result->id ?></td>
-							<td><?php echo $result->account ?></td>
-							<td><?php echo ($result->is_admin)? 'Admin': 'User' ?></td>
+							<td style="width: 70px;"><?php echo $result->id ?></td>
+							<td style="width: 140px;"><?php echo $result->account ?></td>
+							<td style="width: 100px;"><?php echo ($result->is_admin)? 'Admin': 'User' ?></td>
 							<td>
 								<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
 								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>

@@ -8,9 +8,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 	header('Location: '.$redirectURL);
 	exit;
 }
-?>
 
-<?php
+
+
 require_once('../module/db.php');
 $sql = "SELECT * FROM airport WHERE id = ?";
 $sth = $db->prepare($sql);
