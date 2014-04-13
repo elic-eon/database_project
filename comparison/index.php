@@ -77,7 +77,7 @@ if (!$_SESSION['isAuth']) {
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;"><?php echo $result->price ?></td>
 							<td>
-								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->comparison_id ?>">Delete</a>
+								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->comparison_id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
 							</td>
 						</tr>
 				<?php

@@ -4,7 +4,7 @@ function generateOrderHtml ($key) {
 	// default html
 	$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection=asc">'.
 				' <i class="fa fa-sort"></i>'.
-			'</a>';;
+			'</a>';
 
 	// If user defines sort
 	if (isset($_GET['orderKey']) && isset($_GET['orderDirection'])) {

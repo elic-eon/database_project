@@ -291,7 +291,7 @@
                     </li>
                     <?php if ($isAdmin): ?>
                         <li>
-                            <a href="#"><i class="fa fa-plane fa-fw"></i> Airport<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-plane fa-fw"></i> Airport Management<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="<?php echo PATH_ROOT_URL; ?>/airport/">View</a>
@@ -303,7 +303,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> User List<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="<?php echo PATH_ROOT_URL; ?>/user/">View</a>

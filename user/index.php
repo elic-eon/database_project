@@ -54,8 +54,10 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 							<td style="width: 140px;"><?php echo $result->account ?></td>
 							<td style="width: 100px;"><?php echo ($result->is_admin)? 'Admin': 'User' ?></td>
 							<td>
-								<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
-								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>">Delete</a>
+								<?php if (!$result->is_admin): ?>
+									<a class="btn btn-xs btn-default" href="edit.php?id=<?php echo $result->id ?>" title="Edit"><i class="fa fa-pencil"></i></a>
+								<?php endif; ?>
+								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
 							</td>
 						</tr>
 				<?php

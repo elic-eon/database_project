@@ -12,7 +12,8 @@
 
     <!-- SB Admin Scripts - Include with every page -->
     <script src="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/sb-admin/sb-admin.js"></script>
-
+    
+    <!-- <link href="//cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css" rel="stylesheet"> -->
     <!-- Page-Level Demo Scripts - Blank - Use for reference -->
 
 </body>

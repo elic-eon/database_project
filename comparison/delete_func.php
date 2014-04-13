@@ -14,12 +14,18 @@ if (!$_SESSION['isAuth']) {
 
 require_once('../module/db.php');
 
-$sql = "DELETE FROM comparison WHERE id = ?";
-$sth = $db->prepare($sql);
-$sth->execute(array($_GET['id']));
-
+if (isset($_GET['redirect'])) {
+	$sql = "DELETE FROM comparison WHERE flight_id = ? AND user_id = ?";
+	$sth = $db->prepare($sql);
+	$sth->execute(array($_GET['id'], $_SESSION['uid']));
+	$redirectURL = '../schedule/';
+} else {
+	$sql = "DELETE FROM comparison WHERE id = ?";
+	$sth = $db->prepare($sql);
+	$sth->execute(array($_GET['id']));
+	$redirectURL = './';
+}
 $_SESSION['msg'] = 'Delete comparison successfully.';
-$redirectURL = './';
 
 header('Location: '.$redirectURL);
 ?>

@@ -51,14 +51,19 @@ if ($key) {
 	$sql = "SELECT tmp.*, airport.name AS destination_name ".
 		   "FROM ".
 		   "(".
-		   "		SELECT flight.*, airport.name AS departure_name ".
+		   "		SELECT flight.*, airport.name AS departure_name, ".
+		   "		EXISTS(".
+		   "			SELECT * ".
+		   "			FROM comparison ".
+		   "			WHERE comparison.user_id = ? AND flight_id = flight.id ".
+		   "		) AS favorite ".
 		   "		FROM flight, airport ".
 		   "		WHERE flight.departure_id = airport.id ".
 		   ") AS tmp, airport ".
 		   "WHERE tmp.destination_id = airport.id $search ".
 		   "ORDER BY $order";
 	$sth = $db->prepare($sql);
-	$sth->execute();
+	$sth->execute(array($_SESSION['uid']));
 ?>
 
 <div class="row">
@@ -120,20 +125,14 @@ if ($key) {
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;">$ <?php echo $result->price ?></td>
 							<td>
-								<?php if ($isAdmin): ?>
-									<a class="btn btn-xs btn-warning" href="edit.php?id=<?php echo $result->id ?>">Edit</a>
-									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-danger dropdown-toggle" data-toggle="dropdown">
-											Other <span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu pull-right" role="menu">
-											<li><a href="../comparison/add_func.php?id=<?php echo $result->id ?>">Add to comparison sheet</a></li>
-											<li class="divider"></li>
-											<li><a href="delete_func.php?id=<?php echo $result->id ?>">Delete</a></li>
-										</ul>
-									</div>
+								<?php if ($result->favorite): ?>
+									<a class="btn btn-xs btn-warning" href="../comparison/delete_func.php?id=<?php echo $result->id ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
 								<?php else: ?>
-									<a class="btn btn-xs btn-default" href="../comparison/add_func.php?id=<?php echo $result->id ?>">Add to comparison sheet</a>
+									<a class="btn btn-xs btn-default" href="../comparison/add_func.php?id=<?php echo $result->id ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
+								<?php endif; ?>
+								<?php if ($isAdmin): ?>
+									<a class="btn btn-xs btn-default" href="edit.php?id=<?php echo $result->id ?>" title="Edit"><i class="fa fa-pencil"></i></a>
+									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
 								<?php endif; ?>
 							</td>
 						</tr>
