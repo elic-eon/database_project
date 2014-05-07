@@ -36,8 +36,8 @@ if ($key) {
 		$searchKeyword = strtolower($searchKeyword);
 		$_SESSION['searchField'] = $searchField;
 		$_SESSION['searchKeyword'] = $searchKeyword;
-		if ($searchField == 'destination_name')
-			$searchField = 'airport.name';
+		if ($searchField == 'destination')
+			$searchField = 'destination';
 		$search = " AND LOWER($searchField) LIKE '%$searchKeyword%' ";
 	}
 
@@ -48,20 +48,7 @@ if ($key) {
 		$order = "$orderKey $orderDirection, $order";
 	}
 
-	$sql = "SELECT tmp.*, airport.name AS destination_name ".
-		   "FROM ".
-		   "(".
-		   "		SELECT flight.*, airport.name AS departure_name, ".
-		   "		EXISTS(".
-		   "			SELECT * ".
-		   "			FROM comparison ".
-		   "			WHERE comparison.user_id = ? AND flight_id = flight.id ".
-		   "		) AS favorite ".
-		   "		FROM flight, airport ".
-		   "		WHERE flight.departure_id = airport.id ".
-		   ") AS tmp, airport ".
-		   "WHERE tmp.destination_id = airport.id $search ".
-		   "ORDER BY $order";
+	$sql = "SELECT *, id IN (SELECT flight_id FROM comparison) AS favorite FROM flight WHERE TRUE $search ORDER BY $order";
 	$sth = $db->prepare($sql);
 	$sth->execute(array($_SESSION['uid']));
 ?>
@@ -80,8 +67,8 @@ if ($key) {
 				<div class="form-group">
 					<select name="searchField" class="form-control" id="searchBy">
 						<option value="flight_number">Flight Number</option>
-						<option value="departure_name">Departure</option>
-						<option value="destination_name">Destination</option>
+						<option value="departure">Departure</option>
+						<option value="destination">Destination</option>
 					</select>
 				</div>
 				<div class="form-group">
@@ -102,8 +89,8 @@ if ($key) {
 						<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
 					<?php endif; ?>
 					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
-					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure_name') ?></th>
-					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination_name') ?></th>
+					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure') ?></th>
+					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination') ?></th>
 					<th style="width: 160px;">Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
 					<th style="width: 160px;">Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
 					<th style="width: 80px;">Price<?php echo generateOrderHtml('price') ?></th>
@@ -119,8 +106,8 @@ if ($key) {
 								<td style="width: 70px;"><?php echo $result->id ?></td>
 							<?php endif; ?>
 							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
-							<td style="width: 110px;"><?php echo $result->departure_name ?></td>
-							<td style="width: 120px;"><?php echo $result->destination_name ?></td>
+							<td style="width: 110px;"><?php echo $result->departure ?></td>
+							<td style="width: 120px;"><?php echo $result->destination ?></td>
 							<td style="width: 160px;"><?php echo $result->departure_date ?></td>
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;">$ <?php echo $result->price ?></td>

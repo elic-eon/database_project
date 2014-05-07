@@ -26,12 +26,12 @@ if ($key) {
 		$_SESSION['msg'] = 'Flight exists.';
 		$redirectURL = 'add.php';
 	} else {
-		$sql = "INSERT INTO flight (flight_number, departure_id, destination_id, departure_date, arrival_date, price) VALUES(?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO flight (flight_number, departure, destination, departure_date, arrival_date, price) VALUES(?, ?, ?, ?, ?, ?)";
 		$sth = $db->prepare($sql);
 		$sth->execute(array(
 			$_POST['flightNumber'],
-			$_POST['departure_id'],
-			$_POST['destination_id'],
+			$_POST['departure'],
+			$_POST['destination'],
 			$_POST['departureDate'],
 			$_POST['arrivalDate'],
 			$_POST['price']

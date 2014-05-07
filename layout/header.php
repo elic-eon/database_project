@@ -303,6 +303,18 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
+                            <a href="#"><i class="fa fa-globe fa-fw"></i> Country Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/country/">View</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/country/add.php">Add</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-users fa-fw"></i> User List<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -315,6 +327,9 @@
                             <!-- /.nav-second-level -->
                         </li>
                     <?php endif; ?>
+                    <li>
+                        <a href="<?php echo PATH_ROOT_URL; ?>/about/"><i class="fa fa-info-circle fa-fw"></i> About</a>
+                    </li>
                     <!-- <li>
                         <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                     </li> -->

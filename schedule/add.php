@@ -15,14 +15,14 @@ require_once('../layout/header.php');
 require_once('../layout/msg.php');
 
 require_once('../module/db.php');
-$sql = "SELECT id, name FROM airport";
+$sql = "SELECT * FROM airport";
 $sth = $db->prepare($sql);
 $sth->execute();
 
 $airports = '';
 
 while ($result = $sth->fetchObject()) {
-	$airports .= '<option value="'.$result->id.'">'.$result->name.'</option>';
+	$airports .= '<option value="'.$result->name.'">'.$result->fullName.'</option>';
 }
 ?>
 
@@ -39,7 +39,7 @@ while ($result = $sth->fetchObject()) {
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
 				<div class="col-sm-4">
-					<select name="departure_id" class="form-control">
+					<select name="departure" class="form-control">
 						<?php echo $airports; ?>
 					</select>
 				</div>
@@ -47,7 +47,7 @@ while ($result = $sth->fetchObject()) {
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
 				<div class="col-sm-4">
-					<select name="destination_id" class="form-control">
+					<select name="destination" class="form-control">
 						<?php echo $airports; ?>
 					</select>
 				</div>

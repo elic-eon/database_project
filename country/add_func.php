@@ -19,25 +19,20 @@ if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
 	$redirectURL = 'add.php';
 } else {
-	$sql = "SELECT * FROM airport WHERE name = ?";
+	$sql = "SELECT * FROM country WHERE name = ?";
 	$sth = $db->prepare($sql);
 	$sth->execute(array($_POST['name']));
 	if ($sth->fetchObject()) {
-		$_SESSION['msg'] = 'Airport exists.';
+		$_SESSION['msg'] = 'Country exists.';
 		$redirectURL = 'add.php';
 	} else {
-		$minutes = ((int)$_POST['timezone_type']) * (((int)$_POST['timezone_hour']) * 60 + ((int)$_POST['timezone_minute']));
-		$sql = "INSERT INTO airport (name, fullName, longitude, latitude, country, timezone_minute) VALUES(?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO country (name, fullName) VALUES(?, ?)";
 		$sth = $db->prepare($sql);
 		$sth->execute(array(
 			$_POST['name'],
-			$_POST['fullName'],
-			$_POST['longitude'],
-			$_POST['latitude'],
-			$_POST['country'],
-			$minutes
+			$_POST['fullName']
 		));
-		$_SESSION['msg'] = 'Add airport successfully.';
+		$_SESSION['msg'] = 'Add country successfully.';
 		$redirectURL = './';
 	}
 }

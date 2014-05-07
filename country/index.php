@@ -15,9 +15,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 <?php require_once('../layout/msg.php') ?>
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Airport Management</h1>
+		<h1 class="page-header">Country Management</h1>
 		<div class="well">
-			<a class="btn btn-default" href="add.php"><i class="fa fa-plus"></i> Add New Airport</a>
+			<a class="btn btn-default" href="add.php"><i class="fa fa-plus"></i> Add New Country</a>
 		</div>
 		<?php
 			require_once('../module/db.php');
@@ -31,7 +31,7 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 				$orderDirection = addslashes($_GET['orderDirection']);
 				$order = "$orderKey $orderDirection, $order";
 			}
-			$sql = "SELECT * FROM airport ORDER BY $order";
+			$sql = "SELECT * FROM country ORDER BY $order";
 			$sth = $db->prepare($sql);
 			$sth->execute();	
 		?>
@@ -39,12 +39,8 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 		<table class="table table-condensed table-hover" id="datalist">
 			<thead id="datalist_head">
 				<tr>
-					<th style="width: 150px;">Name<?php echo generateOrderHtml('name') ?></th>
-					<th style="width: 150px;">Full Name<?php echo generateOrderHtml('fullName') ?></th>
-					<th style="width: 150px;">Longitude<?php echo generateOrderHtml('longitude') ?></th>
-					<th style="width: 150px;">Latitude<?php echo generateOrderHtml('latitude') ?></th>
-					<th style="width: 150px;">Country<?php echo generateOrderHtml('country') ?></th>
-					<th style="width: 150px;">Timezone<?php echo generateOrderHtml('timezone_minute') ?></th>
+					<th style="width: 200px;">Name<?php echo generateOrderHtml('name') ?></th>
+					<th style="width: 250px;">Full Name<?php echo generateOrderHtml('fullName') ?></th>
 					<th>Operation</th>
 				</tr>
 			</thead>
@@ -53,20 +49,8 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
-							<td style="width: 150px;"><?php echo $result->name ?></td>
-							<td style="width: 150px;"><?php echo $result->fullName ?></td>
-							<td style="width: 150px;"><?php echo $result->longitude ?></td>
-							<td style="width: 150px;"><?php echo $result->latitude ?></td>
-							<td style="width: 150px;"><?php echo $result->country ?></td>
-							<td style="width: 150px;">
-								<?php
-									$timezone_minute = $result->timezone_minute;
-									$type = ($timezone_minute>=0? '+': '-');
-									$hour = abs($timezone_minute) / 60;
-									$minute = $timezone_minute % 60;
-									printf("UTC %s%02d:%02d", $type, $hour, $minute);
-								?>
-							</td>
+							<td style="width: 200px;"><?php echo $result->name ?></td>
+							<td style="width: 250px;"><?php echo $result->fullName ?></td>
 							<td>
 								<a class="btn btn-xs btn-default" href="edit.php?name=<?php echo $result->name ?>" title="Edit"><i class="fa fa-pencil"></i></a>
 								<a class="btn btn-xs btn-danger" href="delete_func.php?name=<?php echo $result->name ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
@@ -76,7 +60,7 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 					}
 				?>
 			</tbody>
-		</table>	
+		</table>
 		</div>
 		<!-- /.col-lg-12 -->
 </div>

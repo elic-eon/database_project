@@ -13,11 +13,11 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 
 require_once('../module/db.php');
 
-$sql = "DELETE FROM airport WHERE name = ?";
+$sql = "DELETE FROM country WHERE name = ?";
 $sth = $db->prepare($sql);
 $sth->execute(array($_GET['name']));
 
-$_SESSION['msg'] = 'Delete airport successfully.';
+$_SESSION['msg'] = 'Delete country successfully.';
 $redirectURL = './';
 
 header('Location: '.$redirectURL);

@@ -19,16 +19,11 @@ if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
 	$redirectURL = 'edit.php?id='.$_POST['id'];
 } else {
-	$minutes = ((int)$_POST['timezone_type']) * (((int)$_POST['timezone_hour']) * 60 + ((int)$_POST['timezone_minute']));
-	$sql = "UPDATE airport SET name = ?, fullName = ?, longitude = ?, latitude = ?, country = ?, timezone_minute = ? WHERE  name = ?;";
+	$sql = "UPDATE country SET name = ?, fullName = ? WHERE  name = ?;";
 	$sth = $db->prepare($sql);
 	$sth->execute(array(
 		$_POST['newName'],
 		$_POST['fullName'],
-		$_POST['longitude'],
-		$_POST['latitude'],
-		$_POST['country'],
-		$minutes,
 		$_POST['oldName']
 	));
 	$redirectURL = './';

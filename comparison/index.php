@@ -28,20 +28,7 @@ if (!$_SESSION['isAuth']) {
 				$orderDirection = addslashes($_GET['orderDirection']);
 				$order = "$orderKey $orderDirection, $order";
 			}
-			$sql = "SELECT comparison.id AS comparison_id, a.* ".
-				   "FROM comparison, ".
-				   "( ".
-				   "    SELECT tmp.*, airport.name AS destination_name ".
-				   "    FROM ".
-				   "    ( ".
-				   "        SELECT flight.*, airport.name AS departure_name ".
-				   "        FROM flight, airport ".
-				   "        WHERE flight.departure_id = airport.id ".
-				   "    ) AS tmp, airport ".
-				   "    WHERE tmp.destination_id = airport.id".
-				   ") AS a ".
-				   "WHERE a.id = comparison.flight_id AND comparison.user_id = ? ".
-				   "ORDER BY $order";
+			$sql = "SELECT comparison.id AS comparison_id, flight.* FROM comparison JOIN flight ON flight_id = flight.id AND user_id = ? ORDER BY $order";
 			$sth = $db->prepare($sql);
 			$sth->execute(array($_SESSION['uid']));
 		?>
@@ -54,8 +41,8 @@ if (!$_SESSION['isAuth']) {
 						<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
 					<?php endif; ?>
 					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
-					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure_name') ?></th>
-					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination_name') ?></th>
+					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure') ?></th>
+					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination') ?></th>
 					<th style="width: 160px;">Departure Date<?php echo generateOrderHtml('departure_date') ?></th>
 					<th style="width: 160px;">Arrival Date<?php echo generateOrderHtml('arrival_date') ?></th>
 					<th style="width: 80px;">Price<?php echo generateOrderHtml('price') ?></th>
@@ -71,8 +58,8 @@ if (!$_SESSION['isAuth']) {
 								<td style="width: 70px;"><?php echo $result->id ?></td>
 							<?php endif; ?>
 							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
-							<td style="width: 110px;"><?php echo $result->departure_name ?></td>
-							<td style="width: 120px;"><?php echo $result->destination_name ?></td>
+							<td style="width: 110px;"><?php echo $result->departure ?></td>
+							<td style="width: 120px;"><?php echo $result->destination ?></td>
 							<td style="width: 160px;"><?php echo $result->departure_date ?></td>
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;"><?php echo $result->price ?></td>

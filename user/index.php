@@ -15,7 +15,7 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 <?php require_once('../layout/msg.php') ?>
 <div class="row">
     <div class="col-lg-12">
-		<h1 class="page-header">User</h1>
+		<h1 class="page-header">User List</h1>
 		<div class="well">
 			<a class="btn btn-default" href="add.php"><i class="fa fa-plus"></i> Add New User</a>
 		</div>

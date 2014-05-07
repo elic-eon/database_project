@@ -14,12 +14,12 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 require_once('../module/db.php');
 
 // Get airports
-$sql = "SELECT id, name FROM airport";
+$sql = "SELECT name FROM airport";
 $sth = $db->prepare($sql);
 $sth->execute();
 $airports = '';
 while ($result = $sth->fetchObject()) {
-	$airports .= '<option value="'.$result->id.'">'.$result->name.'</option>';
+	$airports .= '<option value="'.$result->name.'">'.$result->name.'</option>';
 }
 
 // Get schedule
@@ -47,7 +47,7 @@ require_once('../layout/msg.php');
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
 				<div class="col-sm-4">
-					<select name="departure_id" class="form-control">
+					<select name="departure" class="form-control">
 						<?php echo $airports; ?>
 					</select>
 				</div>
@@ -55,7 +55,7 @@ require_once('../layout/msg.php');
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
 				<div class="col-sm-4">
-					<select name="destination_id" class="form-control">
+					<select name="destination" class="form-control">
 						<?php echo $airports; ?>
 					</select>
 				</div>
@@ -89,8 +89,8 @@ require_once('../layout/msg.php');
 
 <script type="text/javascript">
 	$(function () {
-		$('select[name=destination_id] option[value=<?php echo $result->destination_id ?>]').attr('selected', 'selected');
-		$('select[name=departure_id] option[value=<?php echo $result->departure_id ?>]').attr('selected', 'selected');
+		$('select[name=destination] option[value=<?php echo $result->destination ?>]').attr('selected', 'selected');
+		$('select[name=departure] option[value=<?php echo $result->departure ?>]').attr('selected', 'selected');
 	})
 </script>
 <?php require_once('../layout/footer.php'); ?>
