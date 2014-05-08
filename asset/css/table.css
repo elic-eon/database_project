@@ -20,6 +20,11 @@
 		border-bottom: 0px solid #ddd !important;
 	}
 
+	.affix + tbody {
+		display: block;
+		margin-top: 31px;
+	}
+
 	.affix-bottom {
 		position: absolute;
 		width: 100%;

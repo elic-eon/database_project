@@ -1,8 +1,12 @@
 <?php
 
 function generateOrderHtml ($key) {
+	$currentFile = $_SERVER["PHP_SELF"];
+	$parts = Explode('/', $currentFile);
+	$exe_name = $parts[count($parts) - 1];
+
 	// default html
-	$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection=asc">'.
+	$html = '<a title="Sort" href="./'.$exe_name.'?orderKey='.$key.'&orderDirection=asc">'.
 				' <i class="fa fa-sort"></i>'.
 			'</a>';
 
@@ -23,7 +27,7 @@ function generateOrderHtml ($key) {
 				$newIcon = 'fa fa-sort-desc';
 				$newDirection = 'asc';
 			}
-			$html = '<a title="Sort" href="./?orderKey='.$key.'&orderDirection='.$newDirection.'">'.
+			$html = '<a title="Sort" href="./'.$exe_name.'?orderKey='.$key.'&orderDirection='.$newDirection.'">'.
 						' <i class="'.$newIcon.'"></i>'.
 					'</a>';
 		}

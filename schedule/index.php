@@ -48,7 +48,7 @@ if ($key) {
 		$order = "$orderKey $orderDirection, $order";
 	}
 
-	$sql = "SELECT *, id IN (SELECT flight_id FROM comparison) AS favorite FROM flight WHERE TRUE $search ORDER BY $order";
+	$sql = "SELECT *, id IN (SELECT flight_id FROM comparison WHERE user_id = ?) AS favorite FROM flight WHERE TRUE $search ORDER BY $order";
 	$sth = $db->prepare($sql);
 	$sth->execute(array($_SESSION['uid']));
 ?>

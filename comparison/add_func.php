@@ -14,16 +14,6 @@ if (!$_SESSION['isAuth']) {
 require_once('../module/db.php');
 require_once('../module/checkData.php');
 
-// Check whether account exists
-$sql = "SELECT * FROM user WHERE id = ?";
-$sth = $db->prepare($sql);
-$sth->execute(array($_SESSION['uid']));
-if (!$sth->fetchObject()) {
-	$redirectURL = PATH_ROOT_URL.'/user/logout.php';
-	header('Location: '.$redirectURL);
-	exit;
-}
-
 $key = isDataInvalid();
 if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";

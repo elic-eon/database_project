@@ -24,6 +24,7 @@ if ($key) {
 
 		$_SESSION['isAuth'] = true;
 		$_SESSION['uid'] = $result->id;
+		$_SESSION['account'] = $result->account;
 		$_SESSION['isAdmin'] = $result->is_admin;
 		$redirectURL = '../schedule/';
 	} else {

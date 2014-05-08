@@ -6,5 +6,5 @@ unset($_SESSION['departure']);
 unset($_SESSION['destination']);
 unset($_SESSION['maxTransfer']);
 
-header('Location: ./advanceSearch.php');
+header('Location: ./search.php');
 ?>

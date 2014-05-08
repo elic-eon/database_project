@@ -3,7 +3,6 @@ require_once('../config.php');
 session_save_path(PATH_SESSION_STORE);
 session_start();
 
-// require_once('../module/checkUserExist.php');
 if (!$_SESSION['isAuth']) {
 	$redirectURL = PATH_ROOT_URL.'/error/403.php';
 	header('Location: '.$redirectURL);

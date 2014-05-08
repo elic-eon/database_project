@@ -2,6 +2,7 @@
 	require_once(dirname(__FILE__).'/../config.php');
 	session_save_path(PATH_SESSION_STORE);
 	session_start();
+    $isAuth = $_SESSION['isAuth'];
     $isAdmin = $_SESSION['isAdmin'];
 ?>
 
@@ -41,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo PATH_ROOT_URL; ?>/schedule">Flight Schedule</a>
+                <a class="navbar-brand" href="<?php echo PATH_ROOT_URL; ?>">Airline Company</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -235,18 +236,29 @@
                     </ul> -->
                     <!-- /.dropdown-alerts -->
                 <!-- </li> -->
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="<?php echo PATH_ROOT_URL; ?>/user/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
+                <?php if ($isAuth): ?>
+                    <!-- /.dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>
+                            <?php echo $_SESSION['account'] ?>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="<?php echo PATH_ROOT_URL; ?>/user/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                <?php else: ?>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-user fa-fw"></i>
+                            Guest
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
             <!-- /.navbar-top-links -->
 
@@ -255,84 +267,81 @@
 
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
-                <ul class="nav" id="side-menu">
-                    <!-- <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div> -->
-                        <!-- /input-group -->
-                    <!-- </li> -->
-                    
+                <ul class="nav" id="side-menu">                    
+                    <!-- Ticket Search -->
                     <li>
-                        <a href="#"><i class="fa fa-table fa-fw"></i> Schedule<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/">View</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/advanceSearch.php">Advanced Search</a>
-                            </li>
-                            <?php if ($isAdmin): ?>
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/schedule/add.php">Add</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                        <!-- /.nav-second-level -->
+                        <a href="<?php echo PATH_ROOT_URL; ?>/ticket/search.php"><i class="fa fa-search fa-fw"></i> Ticket Search</a>
                     </li>
 
-                    <li>
-                        <a href="<?php echo PATH_ROOT_URL; ?>/comparison/"><i class="fa fa-money fa-fw"></i> Comparison Sheet</a>
-                    </li>
-                    <?php if ($isAdmin): ?>
+                    <?php if ($isAuth): ?>
+                        <!-- Schedule -->
                         <li>
-                            <a href="#"><i class="fa fa-plane fa-fw"></i> Airport Management<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/airport/">View</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/airport/add.php">Add</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+                            <?php if (!$isAdmin): ?>
+                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/"><i class="fa fa-table fa-fw"></i> Schedule</a>
+                            <?php else: ?>
+                                <a href="#"><i class="fa fa-table fa-fw"></i> Schedule<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/schedule/">View</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/schedule/add.php">Add</a>
+                                    </li>
+                                </ul>
+                            <?php endif; ?>
                         </li>
+
+                        <!-- Comparison Sheet -->
                         <li>
-                            <a href="#"><i class="fa fa-globe fa-fw"></i> Country Management<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/country/">View</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/country/add.php">Add</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+                            <a href="<?php echo PATH_ROOT_URL; ?>/comparison/"><i class="fa fa-money fa-fw"></i> Comparison Sheet</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> User List<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/user/">View</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/user/add.php">Add</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+
+                        <?php if ($isAdmin): ?>
+                            <!-- Airport Management -->
+                            <li>
+                                <a href="#"><i class="fa fa-plane fa-fw"></i> Airport Management<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/airport/">View</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/airport/add.php">Add</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Country Management -->
+                            <li>
+                                <a href="#"><i class="fa fa-globe fa-fw"></i> Country Management<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/country/">View</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/country/add.php">Add</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- User List -->
+                            <li>
+                                <a href="#"><i class="fa fa-users fa-fw"></i> User List<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/user/">View</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo PATH_ROOT_URL; ?>/user/add.php">Add</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
                     <?php endif; ?>
+
+                    <!-- About -->
                     <li>
                         <a href="<?php echo PATH_ROOT_URL; ?>/about/"><i class="fa fa-info-circle fa-fw"></i> About</a>
                     </li>
-                    <!-- <li>
-                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                    </li> -->
                 </ul>
                 <!-- /#side-menu -->
             </div>
