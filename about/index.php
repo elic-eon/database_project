@@ -65,7 +65,29 @@ INSERT INTO airport (`name`, fullName, longitude, latitude, country, timezone_mi
 			<li>
 				<h4>Flight</h4>
 				<p>
-					<pre></pre>
+					<pre>CREATE TABLE IF NOT EXISTS flight (
+  id int(10) unsigned NOT NULL auto_increment,
+  flight_number varchar(255) NOT NULL,
+  departure varchar(255) NOT NULL,
+  destination varchar(255) NOT NULL,
+  departure_date datetime NOT NULL,
+  arrival_date datetime NOT NULL,
+  price int(10) unsigned NOT NULL,
+  PRIMARY KEY  (id),
+  KEY departure (departure),
+  KEY destination (destination)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+INSERT INTO flight (flight_number, departure, destination, departure_date, arrival_date, price) VALUES
+('CX-420', 'KHH', 'OSA', '2014-05-06 01:00:00', '2014-05-07 15:10:00', 450),
+('GE-605', 'NYK', 'TPE', '2014-05-07 01:30:00', '2014-05-07 14:20:00', 300),
+('OZ-713', 'OSA', 'PUS', '2014-05-07 04:50:00', '2014-05-07 13:17:00', 340),
+('BR-2149', 'PEK', 'KHH', '2014-05-07 20:08:00', '2014-05-08 21:45:00', 100),
+('CI-910', 'PHL', 'TPE', '2014-05-08 01:03:00', '2014-05-08 09:50:00', 250),
+('BR-398', 'PUS', 'SEL', '2014-05-08 23:20:00', '2014-05-09 17:10:00', 260),
+('ZH-9095', 'SHA', 'PHL', '2014-05-08 21:46:00', '2014-05-09 19:37:00', 150),
+('B7-7152', 'TYO', 'NYK', '2014-05-10 10:00:00', '2014-05-10 20:55:00', 420);
+</pre>
 				</p>
 			</li>
 		</ol>

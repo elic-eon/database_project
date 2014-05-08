@@ -267,24 +267,24 @@
                         </div> -->
                         <!-- /input-group -->
                     <!-- </li> -->
-                    <?php if ($isAdmin): ?>
-                        <li>
-                            <a href="#"><i class="fa fa-table fa-fw"></i> Schedule<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/schedule/">View</a>
-                                </li>
+                    
+                    <li>
+                        <a href="#"><i class="fa fa-table fa-fw"></i> Schedule<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/">View</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo PATH_ROOT_URL; ?>/schedule/advanceSearch.php">Advanced Search</a>
+                            </li>
+                            <?php if ($isAdmin): ?>
                                 <li>
                                     <a href="<?php echo PATH_ROOT_URL; ?>/schedule/add.php">Add</a>
                                 </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                    <?php else: ?>
-                        <li>
-                            <a href="<?php echo PATH_ROOT_URL; ?>/schedule/"><i class="fa fa-table fa-fw"></i> Schedule</a>
-                        </li>
-                    <?php endif; ?>
+                            <?php endif; ?>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
 
                     <li>
                         <a href="<?php echo PATH_ROOT_URL; ?>/comparison/"><i class="fa fa-money fa-fw"></i> Comparison Sheet</a>
