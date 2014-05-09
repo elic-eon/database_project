@@ -13,7 +13,7 @@ if (!$_SESSION['isAuth']) {
 
 require_once('../module/db.php');
 
-$sql = "DELETE FROM favoriteFlight WHERE flight_id = ? AND user_id = ?";
+$sql = "DELETE FROM favoriteFlight WHERE flightNumber = ? AND userId = ?";
 if (isset($_GET['redirect'])) {
 	$redirectURL = '../schedule/';
 } else {
@@ -23,7 +23,7 @@ if (isset($_GET['redirect'])) {
 
 $sth = $db->prepare($sql);
 $sth->execute(array(
-	$_GET['id'],
+	$_GET['number'],
 	$_SESSION['uid']
 ));
 

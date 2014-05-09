@@ -48,7 +48,7 @@ if ($key) {
 		$order = "$orderKey $orderDirection, $order";
 	}
 
-	$sql = "SELECT *, id IN (SELECT flight_id FROM favoriteFlight WHERE user_id = ?) AS favorite FROM flight WHERE TRUE $search ORDER BY $order";
+	$sql = "SELECT *, flight_number IN (SELECT flightNumber FROM favoriteFlight WHERE userId = ?) AS favorite FROM flight WHERE TRUE $search ORDER BY $order";
 	$sth = $db->prepare($sql);
 	$sth->execute(array($_SESSION['uid']));
 ?>
@@ -113,9 +113,9 @@ if ($key) {
 							<td style="width: 80px;">$ <?php echo $result->price ?></td>
 							<td>
 								<?php if ($result->favorite): ?>
-									<a class="btn btn-xs btn-warning" href="../favorite/deleteFlight_func.php?id=<?php echo $result->id ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
+									<a class="btn btn-xs btn-warning" href="../favorite/deleteFlight_func.php?number=<?php echo $result->flight_number ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
 								<?php else: ?>
-									<a class="btn btn-xs btn-default" href="../favorite/addFlight_func.php?id=<?php echo $result->id ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
+									<a class="btn btn-xs btn-default" href="../favorite/addFlight_func.php?number=<?php echo $result->flight_number ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
 								<?php endif; ?>
 								<?php if ($isAdmin): ?>
 									<a class="btn btn-xs btn-default" href="edit.php?id=<?php echo $result->id ?>" title="Edit"><i class="fa fa-pencil"></i></a>

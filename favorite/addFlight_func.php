@@ -19,22 +19,22 @@ if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
 	$redirectURL = '../schedule/';
 } else {
-	$sql = "SELECT * FROM favoriteFlight WHERE user_id = ? AND flight_id = ?";
+	$sql = "SELECT * FROM favoriteFlight WHERE userId = ? AND flightNumber = ?";
 	$sth = $db->prepare($sql);
 	$sth->execute(array(
 		$_SESSION['uid'],
-		$_GET['id']
+		$_GET['number']
 	));
 
 	if ($sth->fetchObject()) {
 		$_SESSION['msg'] = 'Flight exists.';
 		$redirectURL = '../schedule';
 	} else {
-		$sql = "INSERT INTO favoriteFlight (user_id, flight_id) VALUES(?, ?)";
+		$sql = "INSERT INTO favoriteFlight (userId, flightNumber) VALUES(?, ?)";
 		$sth = $db->prepare($sql);
 		$r = $sth->execute(array(
 			$_SESSION['uid'],
-			$_GET['id']
+			$_GET['number']
 		));
 		$redirectURL = '../schedule';
 	}

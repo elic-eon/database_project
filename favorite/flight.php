@@ -28,7 +28,7 @@ if (!$_SESSION['isAuth']) {
 				$orderDirection = addslashes($_GET['orderDirection']);
 				$order = "$orderKey $orderDirection, $order";
 			}
-			$sql = "SELECT flight.* FROM favoriteFlight JOIN flight ON flight_id = flight.id AND user_id = ? ORDER BY $order";
+			$sql = "SELECT flight.* FROM favoriteFlight JOIN flight ON flightNumber = flight.flight_number AND userId = ? ORDER BY $order";
 			$sth = $db->prepare($sql);
 			$sth->execute(array($_SESSION['uid']));
 		?>
@@ -57,7 +57,7 @@ if (!$_SESSION['isAuth']) {
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;"><?php echo $result->price ?></td>
 							<td>
-								<a class="btn btn-xs btn-danger" href="deleteFlight_func.php?id=<?php echo $result->id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
+								<a class="btn btn-xs btn-danger" href="deleteFlight_func.php?number=<?php echo $result->flight_number ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
 							</td>
 						</tr>
 				<?php
