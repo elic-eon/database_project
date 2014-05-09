@@ -214,12 +214,17 @@ if ($key) {
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Max transfer time</label>
-					<div class="col-sm-2">
-						<select name="maxTransfer" class="form-control">
-							<option value="0">No transfer</option>
-							<option value="1">1 time</option>
-							<option value="2">2 times</option>
-						</select>
+					<div class="col-sm-6">
+						<label class="radio-inline">
+							<input type="radio" name="maxTransfer" value="0" checked> No transfer
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="maxTransfer" value="1"> 1 time
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="maxTransfer" value="2"> 2 times
+						</label>
+						<span class="help-block">Tourist may get discount of tickets as the time of transfer goes up.</span>
 					</div>
 				</div>
 
@@ -404,7 +409,8 @@ if ($key) {
 		$(function () {
 			$('select[name=departure] option[value=<?php echo $_SESSION['departure'] ?>]').attr('selected', 'selected');
 			$('select[name=destination] option[value=<?php echo $_SESSION['destination'] ?>]').attr('selected', 'selected');
-			$('select[name=maxTransfer] option[value=<?php echo $_SESSION['maxTransfer'] ?>]').attr('selected', 'selected');
+			// $('select[name=maxTransfer] option[value=<?php echo $_SESSION['maxTransfer'] ?>]').attr('selected', 'selected');
+			$('input[name=maxTransfer][value=<?php echo $_SESSION['maxTransfer'] ?>]').attr('checked', 'checked');
 			$('input[name=overnight][value=<?php echo $_SESSION['overnight'] ?>]').attr('checked', 'checked');
 		})
 	</script>

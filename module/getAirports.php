@@ -20,7 +20,7 @@ while ($result = $__sth__->fetchObject()) {
 foreach ($__airports__ as $country => $aps){
 	$airportOptions .= '<optgroup label="'.$country.'">';
 	foreach ($aps as $ap){
-		$airportOptions .= '<option value="'.$ap["name"].'">'.$ap["fullName"].'</option>';
+		$airportOptions .= '<option value="'.$ap["name"].'">'.$ap["name"].','.$ap["fullName"].'</option>';
 	}
 	$airportOptions .= '</optgroup>';
 }
