@@ -245,19 +245,29 @@
                             <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="<?php echo PATH_ROOT_URL; ?>/user/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <li>
+                                <a href="<?php echo PATH_ROOT_URL; ?>/user/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                             </li>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
                     <!-- /.dropdown -->
                 <?php else: ?>
-                    <li>
-                        <a href="#">
+                    <!-- /.dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i>
                             Guest
+                            <i class="fa fa-caret-down"></i>
                         </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="<?php echo PATH_ROOT_URL; ?>/user/login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
                     </li>
+                    <!-- /.dropdown -->
                 <?php endif; ?>
             </ul>
             <!-- /.navbar-top-links -->

@@ -80,7 +80,7 @@ if (!$_SESSION['isAuth']) {
 					"                (f.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = f.departure) MINUTE) AS UTC_D2 ".
 					"            FROM ( ".
 					"                SELECT ".
-					"                    favoriteTicket.*, ".
+					"                    u.*, ".
 					"                    f.id AS id1, ".
 					"                    f.flight_number AS fn1, ".
 					"                    f.departure AS dep1, ".
@@ -90,15 +90,22 @@ if (!$_SESSION['isAuth']) {
 					"                    f.price AS price1, ".
 					"                    (f.arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = f.destination) MINUTE) AS UTC_A1, ".
 					"                    (f.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = f.departure) MINUTE) AS UTC_D1 ".
-					"                FROM ".
-					"                    favoriteTicket JOIN flight AS f ON flightNumber1 = f.flight_number ".
+					"                FROM ( ".
+					"                    SELECT ".
+					"                        * ".
+					"                    FROM ".
+					"                        favoriteTicket ".
+					"                    WHERE ".
+					"                        userID = ? ".
+					"                ) AS u ".
+					"                JOIN flight AS f ON u.flightNumber1 = f.flight_number ".
 					"            ) AS r1 LEFT JOIN flight AS f ON flightNumber2 = f.flight_number ".
 					"        ) AS r2 LEFT JOIN flight AS f ON flightNumber3 = f.flight_number ".
 					"    ) AS r ".
 					") AS s ".
 					"$order ";
 			$sth = $db->prepare($sql);
-			$sth->execute();
+			$sth->execute(array($_SESSION['uid']));
 		?>
 		<table class="table table-condensed" id="datalist">
 			<thead id="datalist_head">

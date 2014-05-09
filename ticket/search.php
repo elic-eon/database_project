@@ -208,138 +208,144 @@ if ($key) {
 
 		<?php $isAuth = $_SESSION['isAuth']; ?>
 
-		<?php if (isset($_SESSION['departure']) && !$rowCount): ?>
-			No ticket matches the search.
+		<!-- If there is a query -->
+		<?php if (isset($_SESSION['departure'])): ?>
+			<!-- If no such ticket -->
+			<?php if (!$rowCount): ?>
+				No matches was found.
+			<?php else: ?>
+				<table class="table table-condensed" id="datalist">
+					<thead id="datalist_head">
+						<tr>
+							<th style="width: 50px;">Result</th>
+							<th style="width: 90px;">Flight number</th>
+							<th style="width: 70px;">Departure</th>
+							<th style="width: 80px;">Destination</th>
+							<th style="width: 115px;">Departure Time<?php echo generateOrderHtml('dTime') ?></th>
+							<th style="width: 95px;">Arrival Time<?php echo generateOrderHtml('aTime') ?></th>
+							<th style="width: 75px;">Flight Time</th>
+							<th style="width: 120px;">Total Flight Time<?php echo generateOrderHtml('flightTime') ?></th>
+							<th style="width: 100px;">Transfer Time<?php echo generateOrderHtml('transferTime') ?></th>
+							<th <?php if ($isAuth): ?>style="width: 80px;"<?php endif; ?>>Price<?php echo generateOrderHtml('price') ?></th>
+							<?php if ($isAuth): ?>
+								<th>Operation</th>
+							<?php endif; ?>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							$i = 1;
+							while ($result = $sth->fetchObject()) {
+						?>
+								<?php if ($result->type == 0): ?>
+									<tr>
+										<td style="width: 50px;"><?php echo $i ?></td>
+										<td style="width: 90px;"><?php echo $result->flight_number1 ?></td>
+										<td style="width: 70px;"><?php echo $result->departure1 ?></td>
+										<td style="width: 80px;"><?php echo $result->destination1 ?></td>
+										<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date1) ?></td>
+										<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date1) ?></td>
+										<td style="width: 75px;"><?php echo $result->flightTime1 ?></td>
+										<td style="width: 120px;"><?php echo $result->flightTime ?></td>
+										<td style="width: 100px;"> - </td>
+										<td <?php if ($isAuth): ?>style="width: 80px;"<?php endif; ?>>$ <?php echo $result->price ?></td>
+										<?php if ($isAuth): ?>
+											<td>
+												<?php if ($result->favoriteId): ?>
+													<a class="btn btn-xs btn-warning" href="../favorite/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
+												<?php else: ?>
+													<a class="btn btn-xs btn-default" href="../favorite/addTicket_func.php?number=<?php echo $result->flight_number1 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
+												<?php endif; ?>
+											</td>
+										<?php endif; ?>
+									</tr>
+								<?php elseif ($result->type == 1): ?>
+									<tr>
+										<td rowspan="2" style="width: 50px;"><?php echo $i ?></td>
+										<td style="width: 90px;"><?php echo $result->flight_number1 ?></td>
+										<td style="width: 70px;"><?php echo $result->departure1 ?></td>
+										<td style="width: 80px;"><?php echo $result->destination1 ?></td>
+										<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date1) ?></td>
+										<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date1) ?></td>
+										<td style="width: 75px;"><?php echo $result->flightTime1 ?></td>
+										<td rowspan="2" style="width: 120px;"><?php echo $result->flightTime ?></td>
+										<td rowspan="2" style="width: 100px;"><?php echo $result->transferTime ?></td>
+										<td rowspan="2" <?php if ($isAuth): ?>style="width: 80px;"<?php endif; ?>>$ <?php echo $result->price ?></td>
+										<?php if ($isAuth): ?>
+											<td rowspan="2">
+												<?php if ($result->favoriteId): ?>
+													<a class="btn btn-xs btn-warning" href="../favorite/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
+												<?php else: ?>
+													<a class="btn btn-xs btn-default" href="../favorite/addTicket_func.php?number=<?php echo $result->flight_number1.','.$result->flight_number2 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
+												<?php endif; ?>
+											</td>
+										<?php endif; ?>
+									</tr>
+									<tr>
+										<td style="width: 90px;"><?php echo $result->flight_number2 ?></td>
+										<td style="width: 70px;"><?php echo $result->departure2 ?></td>
+										<td style="width: 80px;"><?php echo $result->destination2 ?></td>
+										<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date2) ?></td>
+										<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date2) ?></td>
+										<td style="width: 75px;"><?php echo $result->flightTime2 ?></td>
+									</tr>
+								<?php elseif ($result->type == 2): ?>
+									<tr>
+										<td rowspan="3" style="width: 50px;"><?php echo $i ?></td>
+										<td style="width: 90px;"><?php echo $result->flight_number1 ?></td>
+										<td style="width: 70px;"><?php echo $result->departure1 ?></td>
+										<td style="width: 80px;"><?php echo $result->destination1 ?></td>
+										<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date1) ?></td>
+										<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date1) ?></td>
+										<td style="width: 75px;"><?php echo $result->flightTime1 ?></td>
+										<td rowspan="3" style="width: 120px;"><?php echo $result->flightTime ?></td>
+										<td rowspan="3" style="width: 100px;"><?php echo $result->transferTime ?></td>
+										<td rowspan="3" <?php if ($isAuth): ?>style="width: 80px;"<?php endif; ?>>$ <?php echo $result->price ?></td>
+										<?php if ($isAuth): ?>
+											<td rowspan="3">
+												<?php if ($result->favoriteId): ?>
+													<a class="btn btn-xs btn-warning" href="../favorite/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
+												<?php else: ?>
+													<a class="btn btn-xs btn-default" href="../favorite/addTicket_func.php?number=<?php echo $result->flight_number1.','.$result->flight_number2.','.$result->flight_number3 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
+												<?php endif; ?>
+											</td>
+										<?php endif; ?>
+									</tr>
+									<tr>
+										<td style="width: 90px;"><?php echo $result->flight_number2 ?></td>
+										<td style="width: 70px;"><?php echo $result->departure2 ?></td>
+										<td style="width: 80px;"><?php echo $result->destination2 ?></td>
+										<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date2) ?></td>
+										<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date2) ?></td>
+										<td style="width: 75px;"><?php echo $result->flightTime2 ?></td>
+									</tr>
+									<tr>
+										<td style="width: 90px;"><?php echo $result->flight_number3 ?></td>
+										<td style="width: 70px;"><?php echo $result->departure3 ?></td>
+										<td style="width: 80px;"><?php echo $result->destination3 ?></td>
+										<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date3) ?></td>
+										<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date3) ?></td>
+										<td style="width: 75px;"><?php echo $result->flightTime3 ?></td>
+									</tr>
+								<?php endif ?>
+						<?php
+								$i++;
+							}
+						?>
+					</tbody>
+				</table>
+			<?php endif; ?>
 		<?php endif; ?>
-		<table class="table table-condensed" id="datalist">
-			<thead id="datalist_head">
-				<?php if (isset($_SESSION['departure']) && $rowCount): ?>
-					<tr>
-						<th style="width: 50px;">Result</th>
-						<th style="width: 90px;">Flight number</th>
-						<th style="width: 70px;">Departure</th>
-						<th style="width: 80px;">Destination</th>
-						<th style="width: 115px;">Departure Time<?php echo generateOrderHtml('dTime') ?></th>
-						<th style="width: 95px;">Arrival Time<?php echo generateOrderHtml('aTime') ?></th>
-						<th style="width: 75px;">Flight Time</th>
-						<th style="width: 120px;">Total Flight Time<?php echo generateOrderHtml('flightTime') ?></th>
-						<th style="width: 100px;">Transfer Time<?php echo generateOrderHtml('transferTime') ?></th>
-						<th style="width: 80px;">Price<?php echo generateOrderHtml('price') ?></th>
-						<?php if ($isAuth): ?>
-							<th>Operation</th>
-						<?php endif; ?>
-					</tr>
-				<?php endif; ?>
-			</thead>
-			<tbody>
-				<?php
-					$i = 1;
-					while ($result = $sth->fetchObject()) {
-				?>
-						<?php if ($result->type == 0): ?>
-							<tr>
-								<td style="width: 50px;"><?php echo $i ?></td>
-								<td style="width: 90px;"><?php echo $result->flight_number1 ?></td>
-								<td style="width: 70px;"><?php echo $result->departure1 ?></td>
-								<td style="width: 80px;"><?php echo $result->destination1 ?></td>
-								<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date1) ?></td>
-								<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date1) ?></td>
-								<td style="width: 75px;"><?php echo $result->flightTime1 ?></td>
-								<td style="width: 120px;"><?php echo $result->flightTime ?></td>
-								<td style="width: 100px;"> - </td>
-								<td style="width: 80px;">$ <?php echo $result->price ?></td>
-								<?php if ($isAuth): ?>
-									<td>
-										<?php if ($result->favoriteId): ?>
-											<a class="btn btn-xs btn-warning" href="../favorite/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
-										<?php else: ?>
-											<a class="btn btn-xs btn-default" href="../favorite/addTicket_func.php?number=<?php echo $result->flight_number1 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
-										<?php endif; ?>
-									</td>
-								<?php endif; ?>
-							</tr>
-						<?php elseif ($result->type == 1): ?>
-							<tr>
-								<td rowspan="2" style="width: 50px;"><?php echo $i ?></td>
-								<td style="width: 90px;"><?php echo $result->flight_number1 ?></td>
-								<td style="width: 70px;"><?php echo $result->departure1 ?></td>
-								<td style="width: 80px;"><?php echo $result->destination1 ?></td>
-								<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date1) ?></td>
-								<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date1) ?></td>
-								<td style="width: 75px;"><?php echo $result->flightTime1 ?></td>
-								<td rowspan="2" style="width: 120px;"><?php echo $result->flightTime ?></td>
-								<td rowspan="2" style="width: 100px;"><?php echo $result->transferTime ?></td>
-								<td rowspan="2" style="width: 80px;">$ <?php echo $result->price ?></td>
-								<?php if ($isAuth): ?>
-									<td rowspan="2">
-										<?php if ($result->favoriteId): ?>
-											<a class="btn btn-xs btn-warning" href="../favorite/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
-										<?php else: ?>
-											<a class="btn btn-xs btn-default" href="../favorite/addTicket_func.php?number=<?php echo $result->flight_number1.','.$result->flight_number2 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
-										<?php endif; ?>
-									</td>
-								<?php endif; ?>
-							</tr>
-							<tr>
-								<td style="width: 90px;"><?php echo $result->flight_number2 ?></td>
-								<td style="width: 70px;"><?php echo $result->departure2 ?></td>
-								<td style="width: 80px;"><?php echo $result->destination2 ?></td>
-								<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date2) ?></td>
-								<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date2) ?></td>
-								<td style="width: 75px;"><?php echo $result->flightTime2 ?></td>
-							</tr>
-						<?php elseif ($result->type == 2): ?>
-							<tr>
-								<td rowspan="3" style="width: 50px;"><?php echo $i ?></td>
-								<td style="width: 90px;"><?php echo $result->flight_number1 ?></td>
-								<td style="width: 70px;"><?php echo $result->departure1 ?></td>
-								<td style="width: 80px;"><?php echo $result->destination1 ?></td>
-								<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date1) ?></td>
-								<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date1) ?></td>
-								<td style="width: 75px;"><?php echo $result->flightTime1 ?></td>
-								<td rowspan="3" style="width: 120px;"><?php echo $result->flightTime ?></td>
-								<td rowspan="3" style="width: 100px;"><?php echo $result->transferTime ?></td>
-								<td rowspan="3" style="width: 80px;">$ <?php echo $result->price ?></td>
-								<?php if ($isAuth): ?>
-									<td rowspan="3">
-										<?php if ($result->favoriteId): ?>
-											<a class="btn btn-xs btn-warning" href="../favorite/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
-										<?php else: ?>
-											<a class="btn btn-xs btn-default" href="../favorite/addTicket_func.php?number=<?php echo $result->flight_number1.','.$result->flight_number2.','.$result->flight_number3 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
-										<?php endif; ?>
-									</td>
-								<?php endif; ?>
-							</tr>
-							<tr>
-								<td style="width: 90px;"><?php echo $result->flight_number2 ?></td>
-								<td style="width: 70px;"><?php echo $result->departure2 ?></td>
-								<td style="width: 80px;"><?php echo $result->destination2 ?></td>
-								<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date2) ?></td>
-								<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date2) ?></td>
-								<td style="width: 75px;"><?php echo $result->flightTime2 ?></td>
-							</tr>
-							<tr>
-								<td style="width: 90px;"><?php echo $result->flight_number3 ?></td>
-								<td style="width: 70px;"><?php echo $result->departure3 ?></td>
-								<td style="width: 80px;"><?php echo $result->destination3 ?></td>
-								<td style="width: 115px;"><?php echo str_replace(' ', '<br>', $result->departure_date3) ?></td>
-								<td style="width: 95px;"><?php echo str_replace(' ', '<br>', $result->arrival_date3) ?></td>
-								<td style="width: 75px;"><?php echo $result->flightTime3 ?></td>
-							</tr>
-						<?php endif ?>
-				<?php
-						$i++;
-					}
-				?>
-			</tbody>
-		</table>
+				
 	</div>
 	<!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
 
-<link href="<?php echo PATH_ROOT_URL; ?>/asset/css/table.css" rel="stylesheet">
-<script src="<?php echo PATH_ROOT_URL; ?>/asset/js/table.js"></script>
+<?php if (isset($_SESSION['departure']) && $rowCount): ?>
+	<link href="<?php echo PATH_ROOT_URL; ?>/asset/css/table.css" rel="stylesheet">
+	<script src="<?php echo PATH_ROOT_URL; ?>/asset/js/table.js"></script>
+<?php endif; ?>
 
 <link href="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/select2-3.4.8/select2.css" rel="stylesheet">
 <script src="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/select2-3.4.8/select2.min.js"></script>
