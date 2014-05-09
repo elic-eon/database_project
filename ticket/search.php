@@ -33,6 +33,31 @@ if ($key) {
 		$_SESSION['departure'] = (isset($_POST['departure'])? $_POST['departure']: $_SESSION['departure']);
 		$_SESSION['destination'] = (isset($_POST['destination'])? $_POST['destination']: $_SESSION['destination']);
 		$_SESSION['maxTransfer'] = (isset($_POST['maxTransfer'])? $_POST['maxTransfer']: $_SESSION['maxTransfer']);
+		$_SESSION['overnight'] = (isset($_POST['overnight'])? $_POST['overnight']: $_SESSION['overnight']);
+
+		$overnight = '';
+		// No overnight
+		if ($_SESSION['overnight'] == 0) {
+			$overnight = " AND ".
+						 "CASE type ".
+						 "    WHEN 0 THEN TRUE ".
+						 "    WHEN 1 THEN (UTC_D2 - INTERVAL 12 HOUR < UTC_A1) ".
+						 "    WHEN 2 THEN (UTC_D2 - INTERVAL 12 HOUR < UTC_A1) && (UTC_D3 - INTERVAL 12 HOUR < UTC_A2) ".
+						 "END ";
+		}
+		// should overnight
+		else if ($_SESSION['overnight'] == 1) {
+			$overnight = " AND ".
+						 "CASE type ".
+						 "    WHEN 0 THEN FALSE ".
+						 "    WHEN 1 THEN (UTC_D2 - INTERVAL 12 HOUR >= UTC_A1) ".
+						 "    WHEN 2 THEN (UTC_D2 - INTERVAL 12 HOUR >= UTC_A1) || (UTC_D3 - INTERVAL 12 HOUR >= UTC_A2) ".
+						 "END ";
+		}
+		// Either overnight or not
+		else {
+			$overnight = " AND TRUE";
+		}
 
 		$sql =  "SELECT ".
 				"    *, ".
@@ -45,7 +70,8 @@ if ($key) {
 				"        NULL AS flight_number3, NULL AS departure3, NULL AS destination3, NULL AS departure_date3, NULL AS arrival_date3, NULL AS flightTime3, ".
 				"        0 AS transferTime, TIMEDIFF(UTC_A1, UTC_D1) AS totalTime, ".
 				"        departure_date1 AS dTime, arrival_date1 AS aTime, ".
-				"        (SELECT id FROM favoriteTicket WHERE userId = ? AND flightNumber1 = r1.flight_number1 AND flightNumber2 IS NULL AND flightNumber3 IS NULL) AS favoriteId ".
+				"        (SELECT id FROM favoriteTicket WHERE userId = ? AND flightNumber1 = r1.flight_number1 AND flightNumber2 IS NULL AND flightNumber3 IS NULL) AS favoriteId, ".
+				"        UTC_A1, UTC_D1, NULL AS UTC_A2, NULL AS UTC_D2, NULL AS UTC_A3, NULL AS UTC_D3 ".
 				"    FROM ( ".
 				"        SELECT ".
 				"            flight_number AS flight_number1, ".
@@ -69,7 +95,8 @@ if ($key) {
 				"        NULL AS flight_number2, NULL AS departure2, NULL AS destination2, NULL AS departure_date2, NULL AS arrival_date2, NULL AS flightTime2, ".
 				"        TIMEDIFF(UTC_D2, UTC_A1) AS transferTime, TIMEDIFF(UTC_A2, UTC_D1) AS totalTime, ".
 				"        departure_date1 AS dTime, arrival_date2 AS aTime, ".
-				"        (SELECT id FROM favoriteTicket WHERE userId = ? AND flightNumber1 = r2.flight_number1 AND flightNumber2 = r2.flight_number2 AND flightNumber3 IS NULL) AS favoriteId ".
+				"        (SELECT id FROM favoriteTicket WHERE userId = ? AND flightNumber1 = r2.flight_number1 AND flightNumber2 = r2.flight_number2 AND flightNumber3 IS NULL) AS favoriteId, ".
+				"        UTC_A1, UTC_D1, UTC_A2, UTC_D2, NULL AS UTC_A3, NULL AS UTC_D3 ".
 				"    FROM ( ".
 				"        SELECT ".
 				"            S.flight_number AS flight_number1, ".
@@ -103,7 +130,8 @@ if ($key) {
 				"        flight_number3, departure3, destination3, departure_date3, arrival_date3, TIMEDIFF(UTC_A3, UTC_D3) AS flightTime3, ".
 				"        ADDTIME(TIMEDIFF(UTC_D2, UTC_A1), TIMEDIFF(UTC_D3, UTC_A2)) AS transferTime, TIMEDIFF(UTC_A3, UTC_D1) AS totalTime, ".
 				"        departure_date1 AS dTime, arrival_date3 AS aTime, ".
-				"        (SELECT id FROM favoriteTicket WHERE userId = ? AND flightNumber1 = r3.flight_number1 AND flightNumber2 = r3.flight_number2 AND flightNumber3 = r3.flight_number3) AS favoriteId ".
+				"        (SELECT id FROM favoriteTicket WHERE userId = ? AND flightNumber1 = r3.flight_number1 AND flightNumber2 = r3.flight_number2 AND flightNumber3 = r3.flight_number3) AS favoriteId, ".
+				"        UTC_A1, UTC_D1, UTC_A2, UTC_D2, UTC_A3, UTC_D3 ".
 				"    FROM ( ".
 				"        SELECT ".
 				"            S.flight_number AS flight_number1, ".
@@ -142,7 +170,7 @@ if ($key) {
 				"    ) AS r3 ".
 				") AS r ".
 				"WHERE ".
-				"    type <= ? ".
+				"    type <= ? $overnight".
 				"$order ";
 		$sth = $db->prepare($sql);
 		$sth->execute(array(
@@ -186,12 +214,28 @@ if ($key) {
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Max transfer time</label>
-					<div class="col-sm-4">
+					<div class="col-sm-2">
 						<select name="maxTransfer" class="form-control">
 							<option value="0">No transfer</option>
 							<option value="1">1 time</option>
 							<option value="2">2 times</option>
 						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Overnight</label>
+					<div class="col-sm-5">
+						<label class="radio-inline">
+							<input type="radio" name="overnight" value="-1" checked> Ignore
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="overnight" value="0"> No
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="overnight" value="1"> Yes
+						</label>
+						<span class="help-block">Transfer time in one transit airport is larger than 12 hours.</span>
 					</div>
 				</div>
 				
@@ -361,6 +405,7 @@ if ($key) {
 			$('select[name=departure] option[value=<?php echo $_SESSION['departure'] ?>]').attr('selected', 'selected');
 			$('select[name=destination] option[value=<?php echo $_SESSION['destination'] ?>]').attr('selected', 'selected');
 			$('select[name=maxTransfer] option[value=<?php echo $_SESSION['maxTransfer'] ?>]').attr('selected', 'selected');
+			$('input[name=overnight][value=<?php echo $_SESSION['overnight'] ?>]').attr('checked', 'checked');
 		})
 	</script>
 <?php endif; ?>
