@@ -15,7 +15,7 @@ if (!$_SESSION['isAuth']) {
 <?php require_once('../layout/msg.php') ?>
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Comparison Sheet</h1>
+		<h1 class="page-header">Favorite <small>- Flight</small></h1>
 		<?php
 			require_once('../module/db.php');
 
@@ -33,13 +33,9 @@ if (!$_SESSION['isAuth']) {
 			$sth->execute(array($_SESSION['uid']));
 		?>
 
-		<?php $isAdmin = $_SESSION['isAdmin']; ?>
 		<table class="table table-condensed table-hover" id="datalist">
 			<thead id="datalist_head">
 				<tr>
-					<?php if ($isAdmin): ?>
-						<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
-					<?php endif; ?>
 					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
 					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure') ?></th>
 					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination') ?></th>
@@ -54,9 +50,6 @@ if (!$_SESSION['isAuth']) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
-							<?php if ($isAdmin): ?>
-								<td style="width: 70px;"><?php echo $result->id ?></td>
-							<?php endif; ?>
 							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
 							<td style="width: 110px;"><?php echo $result->departure ?></td>
 							<td style="width: 120px;"><?php echo $result->destination ?></td>
@@ -64,16 +57,16 @@ if (!$_SESSION['isAuth']) {
 							<td style="width: 160px;"><?php echo $result->arrival_date ?></td>
 							<td style="width: 80px;"><?php echo $result->price ?></td>
 							<td>
-								<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->comparison_id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
+								<a class="btn btn-xs btn-danger" href="deleteFlight_func.php?id=<?php echo $result->id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
 							</td>
 						</tr>
 				<?php
 					}
 				?>
 			</tbody>
-		</table>	
-		</div>
-		<!-- /.col-lg-12 -->
+		</table>
+	</div>
+	<!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
 

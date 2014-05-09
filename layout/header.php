@@ -293,7 +293,15 @@
 
                         <!-- Comparison Sheet -->
                         <li>
-                            <a href="<?php echo PATH_ROOT_URL; ?>/comparison/"><i class="fa fa-money fa-fw"></i> Comparison Sheet</a>
+                            <a href="#"><i class="fa fa-plane fa-fw"></i> Comparison Sheet<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/comparison/flight.php">Flight</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/comparison/ticket.php">Ticket</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <?php if ($isAdmin): ?>

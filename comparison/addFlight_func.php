@@ -36,7 +36,6 @@ if ($key) {
 			$_SESSION['uid'],
 			$_GET['id']
 		));
-		$_SESSION['msg'] = 'Add comparison successfully.';
 		$redirectURL = '../schedule';
 	}
 }

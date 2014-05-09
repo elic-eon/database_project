@@ -64,7 +64,6 @@ if ($key) {
 	} else {
 		$sth = $db->prepare($sqlInsert);
 		$r = $sth->execute($data);
-		$_SESSION['msg'] = 'Add ticket successfully.';
 		$redirectURL = '../ticket/search.php';
 	}
 }

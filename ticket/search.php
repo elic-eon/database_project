@@ -258,7 +258,7 @@ if ($key) {
 								<?php if ($isAuth): ?>
 									<td>
 										<?php if ($result->favoriteId): ?>
-											<a class="btn btn-xs btn-warning" href="../comparison/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>" title="Remove favorite"><i class="fa fa-heart"></i></a>
+											<a class="btn btn-xs btn-warning" href="../comparison/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
 										<?php else: ?>
 											<a class="btn btn-xs btn-default" href="../comparison/addTicket_func.php?number=<?php echo $result->flight_number1 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
 										<?php endif; ?>
@@ -280,7 +280,7 @@ if ($key) {
 								<?php if ($isAuth): ?>
 									<td rowspan="2">
 										<?php if ($result->favoriteId): ?>
-											<a class="btn btn-xs btn-warning" href="../comparison/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>" title="Remove favorite"><i class="fa fa-heart"></i></a>
+											<a class="btn btn-xs btn-warning" href="../comparison/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
 										<?php else: ?>
 											<a class="btn btn-xs btn-default" href="../comparison/addTicket_func.php?number=<?php echo $result->flight_number1.','.$result->flight_number2 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
 										<?php endif; ?>
@@ -310,7 +310,7 @@ if ($key) {
 								<?php if ($isAuth): ?>
 									<td rowspan="3">
 										<?php if ($result->favoriteId): ?>
-											<a class="btn btn-xs btn-warning" href="../comparison/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>" title="Remove favorite"><i class="fa fa-heart"></i></a>
+											<a class="btn btn-xs btn-warning" href="../comparison/deleteTicket_func.php?id=<?php echo $result->favoriteId ?>&redirect=s" title="Remove favorite"><i class="fa fa-heart"></i></a>
 										<?php else: ?>
 											<a class="btn btn-xs btn-default" href="../comparison/addTicket_func.php?number=<?php echo $result->flight_number1.','.$result->flight_number2.','.$result->flight_number3 ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
 										<?php endif; ?>

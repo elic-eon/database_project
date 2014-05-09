@@ -1,5 +1,5 @@
 @media(min-width:767px) {
-	#datalist_head {
+	#datalist_head, #datalist_head2 {
 		z-index: 999;
 		background-color: #fff;
 	}
@@ -20,13 +20,20 @@
 		border-bottom: 0px solid #ddd !important;
 	}
 
-	.affix + tbody {
+	.affix + tbody::before {
+		content: ' ';
 		display: block;
-		margin-top: 31px;
+		height: 31px;
 	}
 
 	.affix-bottom {
 		position: absolute;
 		width: 100%;
+	}
+
+	.affix-bottom + tbody::before {
+		content: ' ';
+		display: block;
+		height: 31px;
 	}
 }
