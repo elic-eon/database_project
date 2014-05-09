@@ -11,19 +11,11 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 
 
 
+require_once('../module/db.php');
+require_once('../module/getAirports.php');
+
 require_once('../layout/header.php');
 require_once('../layout/msg.php');
-
-require_once('../module/db.php');
-$sql = "SELECT * FROM airport";
-$sth = $db->prepare($sql);
-$sth->execute();
-
-$airports = '';
-
-while ($result = $sth->fetchObject()) {
-	$airports .= '<option value="'.$result->name.'">'.$result->fullName.'</option>';
-}
 ?>
 
 <div class="row">
@@ -39,16 +31,16 @@ while ($result = $sth->fetchObject()) {
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
 				<div class="col-sm-4">
-					<select name="departure" class="form-control">
-						<?php echo $airports; ?>
+					<select name="departure" style="width:100%;">
+						<?php echo $airportOptions; ?>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
 				<div class="col-sm-4">
-					<select name="destination" class="form-control">
-						<?php echo $airports; ?>
+					<select name="destination" style="width:100%;">
+						<?php echo $airportOptions; ?>
 					</select>
 				</div>
 			</div>
@@ -78,4 +70,15 @@ while ($result = $sth->fetchObject()) {
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
+<link href="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/select2-3.4.8/select2.css" rel="stylesheet">
+<script src="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/select2-3.4.8/select2.min.js"></script>
+
+<script type="text/javascript">
+	$(function () {
+		$("select[name=departure]").select2();
+		$("select[name=destination]").select2();
+	})
+</script>
+
 <?php require_once('../layout/footer.php'); ?>

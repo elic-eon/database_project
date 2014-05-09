@@ -12,23 +12,16 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 
 
 require_once('../module/db.php');
+require_once('../module/getAirports.php');
 
-// Get airports
-$sql = "SELECT name FROM airport";
-$sth = $db->prepare($sql);
-$sth->execute();
-$airports = '';
-while ($result = $sth->fetchObject()) {
-	$airports .= '<option value="'.$result->name.'">'.$result->name.'</option>';
-}
+require_once('../layout/header.php');
+require_once('../layout/msg.php');
 
 // Get schedule
 $sql = "SELECT * FROM flight WHERE id = ?";
 $sth = $db->prepare($sql);
 $sth->execute(array($_GET['id']));
 $result = $sth->fetchObject();
-require_once('../layout/header.php');
-require_once('../layout/msg.php');
 ?>
 
 <div class="row">
@@ -47,16 +40,16 @@ require_once('../layout/msg.php');
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
 				<div class="col-sm-4">
-					<select name="departure" class="form-control">
-						<?php echo $airports; ?>
+					<select name="departure" style="width:100%;">
+						<?php echo $airportOptions; ?>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
 				<div class="col-sm-4">
-					<select name="destination" class="form-control">
-						<?php echo $airports; ?>
+					<select name="destination" style="width:100%;">
+						<?php echo $airportOptions; ?>
 					</select>
 				</div>
 			</div>
@@ -87,10 +80,17 @@ require_once('../layout/msg.php');
 </div>
 <!-- /.row -->
 
+<link href="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/select2-3.4.8/select2.css" rel="stylesheet">
+<script src="<?php echo PATH_ROOT_URL; ?>/asset/js/plugins/select2-3.4.8/select2.min.js"></script>
+
 <script type="text/javascript">
 	$(function () {
 		$('select[name=destination] option[value=<?php echo $result->destination ?>]').attr('selected', 'selected');
 		$('select[name=departure] option[value=<?php echo $result->departure ?>]').attr('selected', 'selected');
+
+		$("select[name=departure]").select2();
+		$("select[name=destination]").select2();
 	})
 </script>
+
 <?php require_once('../layout/footer.php'); ?>

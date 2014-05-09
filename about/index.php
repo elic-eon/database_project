@@ -16,6 +16,10 @@ session_start();
 			<li><a href="http://www.ting.com.tw/tour-info/air-name.htm">Airport Names</a></li>
 			<li><a href="http://card.url.com.tw/realads/map_latlng.php">Location Search</a></li>
 		</ol>
+		<h3>API</h3>
+		<ol>
+			<li><a href="../api/airport">Airport List</a></li>
+		</ol>
 		<h3>Sample Data</h3>
 		<ol>
 			<li>
