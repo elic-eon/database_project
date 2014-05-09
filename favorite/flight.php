@@ -28,7 +28,7 @@ if (!$_SESSION['isAuth']) {
 				$orderDirection = addslashes($_GET['orderDirection']);
 				$order = "$orderKey $orderDirection, $order";
 			}
-			$sql = "SELECT comparison.id AS comparison_id, flight.* FROM comparison JOIN flight ON flight_id = flight.id AND user_id = ? ORDER BY $order";
+			$sql = "SELECT flight.* FROM favoriteFlight JOIN flight ON flight_id = flight.id AND user_id = ? ORDER BY $order";
 			$sth = $db->prepare($sql);
 			$sth->execute(array($_SESSION['uid']));
 		?>

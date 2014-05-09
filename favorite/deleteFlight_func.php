@@ -13,12 +13,12 @@ if (!$_SESSION['isAuth']) {
 
 require_once('../module/db.php');
 
-$sql = "DELETE FROM favoriteTicket WHERE id = ? AND userId = ?";
+$sql = "DELETE FROM favoriteFlight WHERE flight_id = ? AND user_id = ?";
 if (isset($_GET['redirect'])) {
-	$redirectURL = '../ticket/search.php';
+	$redirectURL = '../schedule/';
 } else {
-	$redirectURL = './ticket.php';
-	$_SESSION['msg'] = 'Delete ticket successfully.';
+	$redirectURL = './flight.php';
+	$_SESSION['msg'] = 'Delete favorite flight successfully.';
 }
 
 $sth = $db->prepare($sql);
@@ -26,11 +26,6 @@ $sth->execute(array(
 	$_GET['id'],
 	$_SESSION['uid']
 ));
-
-// $sql = "DELETE FROM favoriteTicket WHERE id = ?";
-// $sth = $db->prepare($sql);
-// $sth->execute(array($_GET['id']));
-// $redirectURL = '../ticket/search.php';
 
 header('Location: '.$redirectURL);
 ?>

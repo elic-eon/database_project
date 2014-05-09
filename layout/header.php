@@ -291,15 +291,15 @@
                             <?php endif; ?>
                         </li>
 
-                        <!-- Comparison Sheet -->
+                        <!-- Favorite -->
                         <li>
-                            <a href="#"><i class="fa fa-plane fa-fw"></i> Comparison Sheet<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-heart fa-fw"></i> Favorite<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/comparison/flight.php">Flight</a>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/favorite/flight.php">Flight</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo PATH_ROOT_URL; ?>/comparison/ticket.php">Ticket</a>
+                                    <a href="<?php echo PATH_ROOT_URL; ?>/favorite/ticket.php">Ticket</a>
                                 </li>
                             </ul>
                         </li>
