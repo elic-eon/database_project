@@ -17,9 +17,9 @@ require_once('../module/checkData.php');
 $key = isDataInvalid();
 if ($key) {
 	$_SESSION['msg'] = "$key cannot be empty.";
-	$redirectURL = 'edit.php?id='.$_POST['id'];
+	$redirectURL = 'edit.php?number='.$_POST['oldFlightNumber'];
 } else {
-	$sql = "UPDATE flight SET flight_number = ?, departure = ?, destination = ?, departure_date = ?, arrival_date = ?, price = ? WHERE  id = ?;";
+	$sql = "UPDATE flight SET flight_number = ?, departure = ?, destination = ?, departure_date = ?, arrival_date = ?, price = ? WHERE  flight_number = ?;";
 	$sth = $db->prepare($sql);
 	$sth->execute(array(
 		$_POST['flightNumber'],
@@ -28,7 +28,7 @@ if ($key) {
 		$_POST['departureDate'],
 		$_POST['arrivalDate'],
 		$_POST['price'],
-		$_POST['id']
+		$_POST['oldFlightNumber']
 	));
 	$redirectURL = './';
 	$_SESSION['msg'] = 'Update successfully.';

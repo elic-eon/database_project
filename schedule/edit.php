@@ -18,9 +18,9 @@ require_once('../layout/header.php');
 require_once('../layout/msg.php');
 
 // Get schedule
-$sql = "SELECT * FROM flight WHERE id = ?";
+$sql = "SELECT * FROM flight WHERE flight_number = ?";
 $sth = $db->prepare($sql);
-$sth->execute(array($_GET['id']));
+$sth->execute(array($_GET['number']));
 $result = $sth->fetchObject();
 ?>
 
@@ -29,7 +29,7 @@ $result = $sth->fetchObject();
     	<h1 class="page-header">Edit Schedule</h1>
 		<form action="edit_func.php" method="post" class="form-horizontal" role="form">
 			<div class="form-group">
-				<input name="id" type="hidden" value="<?php echo $result->id ?>">
+				<input name="oldFlightNumber" type="hidden" value="<?php echo $result->flight_number ?>">
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Flight Number</label>

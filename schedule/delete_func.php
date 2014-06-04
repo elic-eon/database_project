@@ -13,9 +13,9 @@ if (!$_SESSION['isAuth'] || !$_SESSION['isAdmin']) {
 
 require_once('../module/db.php');
 
-$sql = "DELETE FROM flight WHERE id = ?";
+$sql = "DELETE FROM flight WHERE flight_number = ?";
 $sth = $db->prepare($sql);
-$sth->execute(array($_GET['id']));
+$sth->execute(array($_GET['number']));
 
 $_SESSION['msg'] = 'Delete flight successfully.';
 $redirectURL = './';

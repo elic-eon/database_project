@@ -85,9 +85,6 @@ if ($key) {
 		<table class="table table-condensed table-hover" id="datalist">
 			<thead id="datalist_head">
 				<tr>
-					<?php if ($isAdmin): ?>
-						<th style="width: 70px;">ID<?php echo generateOrderHtml('id') ?></th>
-					<?php endif; ?>
 					<th style="width: 140px;">Flight number<?php echo generateOrderHtml('flight_number') ?></th>
 					<th style="width: 110px;">Departure<?php echo generateOrderHtml('departure') ?></th>
 					<th style="width: 120px;">Destination<?php echo generateOrderHtml('destination') ?></th>
@@ -102,9 +99,6 @@ if ($key) {
 					while ($result = $sth->fetchObject()) {
 				?>
 						<tr>
-							<?php if ($isAdmin): ?>
-								<td style="width: 70px;"><?php echo $result->id ?></td>
-							<?php endif; ?>
 							<td style="width: 140px;"><?php echo $result->flight_number ?></td>
 							<td style="width: 110px;"><?php echo $result->departure ?></td>
 							<td style="width: 120px;"><?php echo $result->destination ?></td>
@@ -118,8 +112,8 @@ if ($key) {
 									<a class="btn btn-xs btn-default" href="../favorite/addFlight_func.php?number=<?php echo $result->flight_number ?>" title="Add to favorite"><i class="fa fa-heart"></i></a>
 								<?php endif; ?>
 								<?php if ($isAdmin): ?>
-									<a class="btn btn-xs btn-default" href="edit.php?id=<?php echo $result->id ?>" title="Edit"><i class="fa fa-pencil"></i></a>
-									<a class="btn btn-xs btn-danger" href="delete_func.php?id=<?php echo $result->id ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
+									<a class="btn btn-xs btn-default" href="edit.php?number=<?php echo $result->flight_number ?>" title="Edit"><i class="fa fa-pencil"></i></a>
+									<a class="btn btn-xs btn-danger" href="delete_func.php?number=<?php echo $result->flight_number ?>" title="Delete"><i class="fa fa-trash-o"></i></a>
 								<?php endif; ?>
 							</td>
 						</tr>

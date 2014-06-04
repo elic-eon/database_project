@@ -57,7 +57,6 @@ if (!$_SESSION['isAuth']) {
 					"    FROM ( ".
 					"        SELECT ".
 					"            r2.*, ".
-					"            f.id AS id3, ".
 					"            f.flight_number AS fn3, ".
 					"            f.departure AS dep3, ".
 					"            f.destination AS des3, ".
@@ -69,7 +68,6 @@ if (!$_SESSION['isAuth']) {
 					"        FROM ( ".
 					"            SELECT ".
 					"                r1.*, ".
-					"                f.id AS id2, ".
 					"                f.flight_number AS fn2, ".
 					"                f.departure AS dep2, ".
 					"                f.destination AS des2, ".
@@ -81,7 +79,6 @@ if (!$_SESSION['isAuth']) {
 					"            FROM ( ".
 					"                SELECT ".
 					"                    u.*, ".
-					"                    f.id AS id1, ".
 					"                    f.flight_number AS fn1, ".
 					"                    f.departure AS dep1, ".
 					"                    f.destination AS des1, ".
