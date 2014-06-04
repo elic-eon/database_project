@@ -1,0 +1,9 @@
+INSERT INTO country (name, fullName) VALUES
+('CN', 'China'),
+('DOH', 'Doha'),
+('JP', 'Japan'),
+('RUS', 'Russian_Federation'),
+('SIN', 'Singapore'),
+('TWN', 'Taiwan'),
+('UK', 'United_Kingdom'),
+('US', 'United_State');

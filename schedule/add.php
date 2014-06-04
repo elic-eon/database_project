@@ -24,13 +24,13 @@ require_once('../layout/msg.php');
 		<form action="add_func.php" method="post" class="form-horizontal" role="form">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Flight Number</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<input name="flightNumber" type="text" class="form-control" required></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<select name="departure" style="width:100%;">
 						<?php echo $airportOptions; ?>
 					</select>
@@ -38,7 +38,7 @@ require_once('../layout/msg.php');
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Destination</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<select name="destination" style="width:100%;">
 						<?php echo $airportOptions; ?>
 					</select>
@@ -46,19 +46,19 @@ require_once('../layout/msg.php');
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Departure Date</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<input name="departureDate" type="datetime-local" class="form-control" required></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Arrival Date</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<input name="arrivalDate" type="datetime-local" class = "form-control" required></p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Price</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<input name="price" type="text" class = "form-control" required></p>
 				</div>
 			</div>

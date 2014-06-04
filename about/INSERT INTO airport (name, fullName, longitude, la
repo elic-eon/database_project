@@ -1,0 +1,15 @@
+INSERT INTO airport (name, fullName, longitude, latitude, country, timezone_minute) VALUES
+('DOH', 'Doha_International_Airport', 123, 456, 'DOH', 240),
+('HKG', 'Hong_Kong_International_Airpor', 123, 456, 'CN', 480),
+('HND', 'Tokyo_International_Airport', 123, 456, 'JP', 540),
+('KHH', 'Kaohsiung_International_Airport', 123, 456, 'TWN', 480),
+('LCY', 'London_City_Airport', 123, 456, 'UK', 0),
+('LED', 'Aeroport_Pulkovo', 123, 456, 'RUS', 240),
+('LHR', 'London_Heathrow_Airport', 123, 456, 'UK', 0),
+('LTN', 'London_Luton_Airport', 123, 456, 'UK', 0),
+('MAN', 'Manchester_Airport', 123, 456, 'UK', 0),
+('NGO', 'Chūbu_Centrair_International_Airport', 123, 456, 'JP', 540),
+('NRT', 'Narita_International_Airport', 123, 456, 'JP', 540),
+('SIN', 'Singapore_International_Airport', 123, 456, 'SIN', 480),
+('TCH', 'Taichung_Airport', 123, 456, 'TWN', 480),
+('TPE', 'Taipei_Touyuan_International_Airport', 123, 456, 'TWN', 480);

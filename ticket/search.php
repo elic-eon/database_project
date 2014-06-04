@@ -121,7 +121,7 @@ if ($key) {
 				"            S.departure = ? AND ".
 				"            T.destination = ? AND ".
 				"            S.destination = T.departure AND ".
-				"            S.arrival_date + INTERVAL 2 HOUR < T.departure_date ".
+				"            S.arrival_date + INTERVAL 2 HOUR <= T.departure_date ".
 				"    ) AS r2 UNION ".
 				"    SELECT ".
 				"        2 AS type, price, ".
@@ -165,8 +165,10 @@ if ($key) {
 				"            U.destination = ? AND ".
 				"            S.destination = T.departure AND ".
 				"            T.destination = U.departure AND ".
-				"            S.arrival_date + INTERVAL 2 HOUR < T.departure_date AND ".
-				"            T.arrival_date + INTERVAL 2 HOUR < U.departure_date ".
+				"            T.destination != S.departure AND ".
+				"            U.destination != S.departure AND ".
+				"            S.arrival_date + INTERVAL 2 HOUR <= T.departure_date AND ".
+				"            T.arrival_date + INTERVAL 2 HOUR <= U.departure_date ".
 				"    ) AS r3 ".
 				") AS r ".
 				"WHERE ".
@@ -196,7 +198,7 @@ if ($key) {
 			<form action="search.php" method="post" class="form-horizontal" role="form">
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Departure</label>
-					<div class="col-sm-4">
+					<div class="col-sm-5">
 						<select name="departure" style="width:100%;">
 							<?php echo $airportOptions; ?>
 						</select>
@@ -205,7 +207,7 @@ if ($key) {
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Destination</label>
-					<div class="col-sm-4">
+					<div class="col-sm-5">
 						<select name="destination" style="width:100%;">
 							<?php echo $airportOptions; ?>
 						</select>
@@ -384,6 +386,127 @@ if ($key) {
 					</tbody>
 				</table>
 			<?php endif; ?>
+
+			<h2>Query</h2>
+			<?php 
+				// Print the query
+				$sql =  "SELECT \n".
+						"    *, \n".
+						"    TIMEDIFF(totalTime, transferTime) AS flightTime \n".
+						"FROM ( \n".
+						"    SELECT \n".
+						"        0 AS type, price, \n".
+						"        flight_number1, departure1, destination1, departure_date1, arrival_date1, TIMEDIFF(UTC_A1, UTC_D1) AS flightTime1, \n".
+						"        NULL AS flight_number2, NULL AS departure2, NULL AS destination2, NULL AS departure_date2, NULL AS arrival_date2, NULL AS flightTime2, \n".
+						"        NULL AS flight_number3, NULL AS departure3, NULL AS destination3, NULL AS departure_date3, NULL AS arrival_date3, NULL AS flightTime3, \n".
+						"        0 AS transferTime, TIMEDIFF(UTC_A1, UTC_D1) AS totalTime, \n".
+						"        departure_date1 AS dTime, arrival_date1 AS aTime, \n".
+						"        (SELECT id FROM favoriteTicket WHERE userId = ".$_SESSION['uid']." AND flightNumber1 = r1.flight_number1 AND flightNumber2 IS NULL AND flightNumber3 IS NULL) AS favoriteId, \n".
+						"        UTC_A1, UTC_D1, NULL AS UTC_A2, NULL AS UTC_D2, NULL AS UTC_A3, NULL AS UTC_D3 \n".
+						"    FROM ( \n".
+						"        SELECT \n".
+						"            flight_number AS flight_number1, \n".
+						"            departure AS departure1, \n".
+						"            destination AS destination1, \n".
+						"            departure_date AS departure_date1, \n".
+						"            arrival_date AS arrival_date1, \n".
+						"            (arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = destination) MINUTE) AS UTC_A1, \n".
+						"            (departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = departure) MINUTE) AS UTC_D1, \n".
+						"            price \n".
+						"        FROM \n".
+						"            flight \n".
+						"        WHERE \n".
+						"            departure = ".$_SESSION['departure']." AND \n".
+						"            destination = ".$_SESSION['destination']." \n".
+						"    ) AS r1 UNION \n".
+						"    SELECT \n".
+						"        1 AS type, price, \n".
+						"        flight_number1, departure1, destination1, departure_date1, arrival_date1, TIMEDIFF(UTC_A1, UTC_D1) AS flightTime1, \n".
+						"        flight_number2, departure2, destination2, departure_date2, arrival_date2, TIMEDIFF(UTC_A2, UTC_D2) AS flightTime2, \n".
+						"        NULL AS flight_number2, NULL AS departure2, NULL AS destination2, NULL AS departure_date2, NULL AS arrival_date2, NULL AS flightTime2, \n".
+						"        TIMEDIFF(UTC_D2, UTC_A1) AS transferTime, TIMEDIFF(UTC_A2, UTC_D1) AS totalTime, \n".
+						"        departure_date1 AS dTime, arrival_date2 AS aTime, \n".
+						"        (SELECT id FROM favoriteTicket WHERE userId = ".$_SESSION['uid']." AND flightNumber1 = r2.flight_number1 AND flightNumber2 = r2.flight_number2 AND flightNumber3 IS NULL) AS favoriteId, \n".
+						"        UTC_A1, UTC_D1, UTC_A2, UTC_D2, NULL AS UTC_A3, NULL AS UTC_D3 \n".
+						"    FROM ( \n".
+						"        SELECT \n".
+						"            S.flight_number AS flight_number1, \n".
+						"            S.departure AS departure1, \n".
+						"            S.destination AS destination1, \n".
+						"            S.departure_date AS departure_date1, \n".
+						"            S.arrival_date AS arrival_date1, \n".
+						"            (S.arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = S.destination) MINUTE) AS UTC_A1, \n".
+						"            (S.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = S.departure) MINUTE) AS UTC_D1, \n".
+						"            T.flight_number AS flight_number2, \n".
+						"            T.departure AS departure2, \n".
+						"            T.destination AS destination2, \n".
+						"            T.departure_date AS departure_date2, \n".
+						"            T.arrival_date AS arrival_date2, \n".
+						"            (T.arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = T.destination) MINUTE) AS UTC_A2, \n".
+						"            (T.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = T.departure) MINUTE) AS UTC_D2, \n".
+						"            (S.price + T.price) * 0.9 AS price \n".
+						"        FROM \n".
+						"            flight AS S JOIN \n".
+						"            flight AS T \n".
+						"        WHERE \n".
+						"            S.departure = ".$_SESSION['departure']." AND \n".
+						"            T.destination = ".$_SESSION['destination']." AND \n".
+						"            S.destination = T.departure AND \n".
+						"            S.arrival_date + INTERVAL 2 HOUR <= T.departure_date \n".
+						"    ) AS r2 UNION \n".
+						"    SELECT \n".
+						"        2 AS type, price, \n".
+						"        flight_number1, departure1, destination1, departure_date1, arrival_date1, TIMEDIFF(UTC_A1, UTC_D1) AS flightTime1, \n".
+						"        flight_number2, departure2, destination2, departure_date2, arrival_date2, TIMEDIFF(UTC_A2, UTC_D2) AS flightTime2, \n".
+						"        flight_number3, departure3, destination3, departure_date3, arrival_date3, TIMEDIFF(UTC_A3, UTC_D3) AS flightTime3, \n".
+						"        ADDTIME(TIMEDIFF(UTC_D2, UTC_A1), TIMEDIFF(UTC_D3, UTC_A2)) AS transferTime, TIMEDIFF(UTC_A3, UTC_D1) AS totalTime, \n".
+						"        departure_date1 AS dTime, arrival_date3 AS aTime, \n".
+						"        (SELECT id FROM favoriteTicket WHERE userId = ".$_SESSION['uid']." AND flightNumber1 = r3.flight_number1 AND flightNumber2 = r3.flight_number2 AND flightNumber3 = r3.flight_number3) AS favoriteId, \n".
+						"        UTC_A1, UTC_D1, UTC_A2, UTC_D2, UTC_A3, UTC_D3 \n".
+						"    FROM ( \n".
+						"        SELECT \n".
+						"            S.flight_number AS flight_number1, \n".
+						"            S.departure AS departure1, \n".
+						"            S.destination AS destination1, \n".
+						"            S.departure_date AS departure_date1, \n".
+						"            S.arrival_date AS arrival_date1, \n".
+						"            (S.arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = S.destination) MINUTE) AS UTC_A1, \n".
+						"            (S.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = S.departure) MINUTE) AS UTC_D1, \n".
+						"            T.flight_number AS flight_number2, \n".
+						"            T.departure AS departure2, \n".
+						"            T.destination AS destination2, \n".
+						"            T.departure_date AS departure_date2, \n".
+						"            T.arrival_date AS arrival_date2, \n".
+						"            (T.arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = T.destination) MINUTE) AS UTC_A2, \n".
+						"            (T.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = T.departure) MINUTE) AS UTC_D2, \n".
+						"            U.flight_number AS flight_number3, \n".
+						"            U.departure AS departure3, \n".
+						"            U.destination AS destination3, \n".
+						"            U.departure_date AS departure_date3, \n".
+						"            U.arrival_date AS arrival_date3, \n".
+						"            (U.arrival_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = U.destination) MINUTE) AS UTC_A3, \n".
+						"            (U.departure_date - INTERVAL (SELECT timezone_minute FROM airport WHERE name = U.departure) MINUTE) AS UTC_D3, \n".
+						"            (S.price + T.price + U.price) * 0.8 AS price \n".
+						"        FROM \n".
+						"            flight AS S JOIN \n".
+						"            flight AS T JOIN \n".
+						"            flight AS U \n".
+						"        WHERE \n".
+						"            S.departure = ".$_SESSION['departure']." AND \n".
+						"            U.destination = ".$_SESSION['destination']." AND \n".
+						"            S.destination = T.departure AND \n".
+						"            T.destination = U.departure AND \n".
+						"            T.destination != S.departure AND \n".
+						"            U.destination != S.departure AND \n".
+						"            S.arrival_date + INTERVAL 2 HOUR <= T.departure_date AND \n".
+						"            T.arrival_date + INTERVAL 2 HOUR <= U.departure_date \n".
+						"    ) AS r3 \n".
+						") AS r \n".
+						"WHERE \n".
+						"    type <= ".$_SESSION['maxTransfer']." $overnight\n".
+						"$order ";
+			?>
+			<pre><?php echo $sql; ?></pre>
 		<?php endif; ?>
 				
 	</div>
